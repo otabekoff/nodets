@@ -97,8 +97,9 @@
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
+    "husky": "9.1.7",
+    "lint-staged": "^15.2.11",
+    "lodash": "^4.17.21",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.4",
     "prisma": "^7.2.0",
@@ -155,7 +156,9 @@
   },
   "overrides": {
     "glob": "^11.0.0",
-    "inflight": "lru-cache@^11.0.0",
-    "z-schema": "6.0.2"
+    "inflight": "npm:lru-cache@^11.0.0",
+    "z-schema": "6.0.2",
+    "lodash.get": "file:./infrastructure/stubs/lodash.get",
+    "lodash.isequal": "file:./infrastructure/stubs/lodash.isequal"
   }
 }
