@@ -1,6 +1,6 @@
 # 🚀 Enterprise Node.js TypeScript API
 
-A production-ready, scalable REST API built with Node.js, TypeScript, and Clean Architecture principles.
+A production-ready, scalable REST API built with Node.js, TypeScript, and Clean Architecture principles and more.
 
 ## ✨ Features
 
