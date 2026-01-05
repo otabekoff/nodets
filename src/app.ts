@@ -27,9 +27,16 @@ export function createApp(): Application {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          scriptSrc: ["'self'", "'unsafe-inline'"],
+          styleSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            'https://fonts.googleapis.com',
+            'https://unpkg.com',
+          ],
+          scriptSrc: ["'self'", "'unsafe-inline'", 'https://unpkg.com', 'https://cdn.jsdelivr.net'],
           imgSrc: ["'self'", 'data:', 'https:'],
+          fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
+          workerSrc: ["'self'", 'blob:'],
         },
       },
       crossOriginEmbedderPolicy: false,

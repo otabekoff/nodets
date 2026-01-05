@@ -358,6 +358,8 @@ export function setupSwagger(app: Application): void {
   // ReDoc handler typing
   type RedocOptions = {
     title: string;
+    specUrl?: string; // Add specUrl reference
+    nonce?: string;
     theme?: {
       colors?: {
         primary?: {
@@ -366,8 +368,9 @@ export function setupSwagger(app: Application): void {
       };
     };
   };
+
+  // Modern redoc-express signature usually accepts options as the first argument
   type RedocHandler = (
-    spec: object,
     options: RedocOptions,
   ) => (req: Request, res: Response, next: NextFunction) => void;
 
@@ -377,8 +380,9 @@ export function setupSwagger(app: Application): void {
   if (typeof redocHandler === 'function') {
     app.get(
       '/redoc',
-      redocHandler(swaggerSpec, {
+      redocHandler({
         title: 'API Documentation',
+        specUrl: '/api-docs.json',
         theme: {
           colors: {
             primary: {
