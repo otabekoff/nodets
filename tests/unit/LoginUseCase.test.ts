@@ -20,23 +20,39 @@ describe('LoginUseCase', () => {
   beforeEach(() => {
     mockAuthRepository = {
       findUserByEmail: vi.fn(),
+      findUserById: vi.fn(),
+      createUser: vi.fn(),
       saveRefreshToken: vi.fn(),
-      findUserById: vi.fn(), // Added missing methods to satisfy interface if needed
-    } as unknown as Mocked<IAuthRepository>;
+      findRefreshToken: vi.fn(),
+      revokeRefreshToken: vi.fn(),
+      revokeAllUserTokens: vi.fn(),
+    } as Mocked<IAuthRepository>;
     useCase = new LoginUseCase(mockAuthRepository);
   });
 
   it('should login user with valid credentials', async () => {
-    const mockUser = {
-      id: '1',
-      email: 'test@example.com',
-      name: 'Test User',
-      password: '$2b$10$hashedpassword',
-      role: 'user',
-    };
+    const mockUser = new User(
+      '1',
+      'test@example.com',
+      'Test User',
+      '$2b$10$hashedpassword',
+      'user',
+      true,
+      new Date(),
+      new Date(),
+    );
 
-    mockAuthRepository.findUserByEmail.mockResolvedValue(mockUser as unknown as User);
-    mockAuthRepository.saveRefreshToken.mockResolvedValue({} as unknown as RefreshToken);
+    const mockToken = new RefreshToken(
+      '1',
+      'valid_refresh_token_string',
+      '1',
+      new Date(Date.now() + 3600000),
+      false,
+      new Date(),
+    );
+
+    mockAuthRepository.findUserByEmail.mockResolvedValue(mockUser);
+    mockAuthRepository.saveRefreshToken.mockResolvedValue(mockToken);
     vi.mocked(bcrypt.compare).mockResolvedValue(true as never);
 
     // Note: You'd need to mock bcrypt.compare here

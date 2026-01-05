@@ -4,6 +4,16 @@
 import { injectable } from 'inversify';
 import type { IVersionStrategy } from '@core/interfaces/index.js';
 
+export interface AuthResponseV1 {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+  };
+}
+
 @injectable()
 export class AuthV1Strategy implements IVersionStrategy {
   readonly version = 'v1';
@@ -12,7 +22,7 @@ export class AuthV1Strategy implements IVersionStrategy {
     accessToken: string;
     refreshToken: string;
     user: { id: string; email: string; name: string; role: string };
-  }): Promise<unknown> {
+  }): Promise<AuthResponseV1> {
     return this.transform(data);
   }
 
@@ -20,7 +30,7 @@ export class AuthV1Strategy implements IVersionStrategy {
     accessToken: string;
     refreshToken: string;
     user: { id: string; email: string; name: string; role: string };
-  }): unknown {
+  }): AuthResponseV1 {
     return {
       accessToken: data.accessToken,
       refreshToken: data.refreshToken,

@@ -1,4 +1,4 @@
-import type { Application } from 'express';
+import type { Application, NextFunction, Request, Response } from 'express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import * as redoc from 'redoc-express';
@@ -355,8 +355,25 @@ export function setupSwagger(app: Application): void {
     }),
   );
 
-  // ReDoc - using default export
-  const redocHandler = (redoc as unknown as { default: unknown }).default || redoc;
+  // ReDoc handler typing
+  type RedocOptions = {
+    title: string;
+    theme?: {
+      colors?: {
+        primary?: {
+          main?: string;
+        };
+      };
+    };
+  };
+  type RedocHandler = (
+    spec: object,
+    options: RedocOptions,
+  ) => (req: Request, res: Response, next: NextFunction) => void;
+
+  const redocModule = redoc as unknown as { default?: RedocHandler };
+  const redocHandler = redocModule.default || (redoc as unknown as RedocHandler);
+
   if (typeof redocHandler === 'function') {
     app.get(
       '/redoc',

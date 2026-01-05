@@ -22,7 +22,11 @@ export function successResponse<T>(data: T, message?: string): IApiResponse<T> {
 /**
  * Error response helper
  */
-export function errorResponse(code: string, message: string, details?: unknown): IApiResponse {
+export function errorResponse(
+  code: string,
+  message: string,
+  details?: Record<string, string | number | boolean | null | undefined | object>,
+): IApiResponse {
   return {
     success: false,
     error: {

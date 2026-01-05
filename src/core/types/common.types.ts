@@ -12,9 +12,11 @@ export type Nullable<T> = T | null;
 
 export type Optional<T> = T | undefined;
 
-export type AsyncFunction<T = unknown> = (...args: unknown[]) => Promise<T>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AsyncFunction<T = void, A extends unknown[] = any[]> = (...args: A) => Promise<T>;
 
-export type Constructor<T = unknown> = new (...args: unknown[]) => T;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Constructor<T = object, A extends unknown[] = any[]> = new (...args: A) => T;
 
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];

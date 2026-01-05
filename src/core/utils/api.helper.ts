@@ -2,6 +2,7 @@
 // src/core/utils/api.helper.ts - API Utilities
 // ============================================================================
 import type { Request } from 'express';
+import type { FilterRecord, FilterValue } from '@core/interfaces/index.js';
 
 /**
  * Extract pagination parameters from request
@@ -27,12 +28,12 @@ export function extractSortParams(req: Request) {
 /**
  * Build filter object from query parameters
  */
-export function buildFilters(req: Request, allowedFields: string[]): Record<string, unknown> {
-  const filters: Record<string, unknown> = {};
+export function buildFilters(req: Request, allowedFields: string[]): FilterRecord {
+  const filters: FilterRecord = {};
 
   allowedFields.forEach((field) => {
     if (req.query[field]) {
-      filters[field] = req.query[field];
+      filters[field] = req.query[field] as FilterValue;
     }
   });
 

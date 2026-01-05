@@ -20,8 +20,9 @@ export class RedisCacheService implements ICacheService {
       if (!value) return null;
 
       return JSON.parse(value) as T;
-    } catch (error) {
-      this.logger.error(`Cache get error for key: ${key}`, error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Cache get error for key: ${key}`, { error: msg });
       return null;
     }
   }
@@ -34,8 +35,9 @@ export class RedisCacheService implements ICacheService {
       const expiry = ttl || this.defaultTTL;
 
       await redisClient.setex(key, expiry, serialized);
-    } catch (error) {
-      this.logger.error(`Cache set error for key: ${key}`, error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Cache set error for key: ${key}`, { error: msg });
     }
   }
 
@@ -44,8 +46,9 @@ export class RedisCacheService implements ICacheService {
 
     try {
       await redisClient.del(key);
-    } catch (error) {
-      this.logger.error(`Cache delete error for key: ${key}`, error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Cache delete error for key: ${key}`, { error: msg });
     }
   }
 
@@ -54,8 +57,9 @@ export class RedisCacheService implements ICacheService {
 
     try {
       await redisClient.flushdb();
-    } catch (error) {
-      this.logger.error('Cache clear error', error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error('Cache clear error', { error: msg });
     }
   }
 
@@ -65,8 +69,9 @@ export class RedisCacheService implements ICacheService {
     try {
       const exists = await redisClient.exists(key);
       return exists === 1;
-    } catch (error) {
-      this.logger.error(`Cache has error for key: ${key}`, error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Cache has error for key: ${key}`, { error: msg });
       return false;
     }
   }
@@ -76,8 +81,9 @@ export class RedisCacheService implements ICacheService {
 
     try {
       return await redisClient.keys(pattern);
-    } catch (error) {
-      this.logger.error(`Cache keys error for pattern: ${pattern}`, error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Cache keys error for pattern: ${pattern}`, { error: msg });
       return [];
     }
   }
@@ -91,8 +97,9 @@ export class RedisCacheService implements ICacheService {
     try {
       const values: (string | null)[] = await redisClient.mget(...keys);
       return values.map((v: string | null) => (v ? (JSON.parse(v) as T) : null));
-    } catch (error) {
-      this.logger.error('Cache mget error', error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error('Cache mget error', { error: msg });
       return keys.map(() => null);
     }
   }
@@ -100,7 +107,10 @@ export class RedisCacheService implements ICacheService {
   /**
    * Set multiple keys at once
    */
-  async mset(items: Record<string, unknown>, ttl?: number): Promise<void> {
+  async mset(
+    items: Record<string, string | number | boolean | null | undefined | object>,
+    ttl?: number,
+  ): Promise<void> {
     if (!redisClient) return;
 
     try {
@@ -113,8 +123,9 @@ export class RedisCacheService implements ICacheService {
       });
 
       await pipeline.exec();
-    } catch (error) {
-      this.logger.error('Cache mset error', error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error('Cache mset error', { error: msg });
     }
   }
 
@@ -126,8 +137,9 @@ export class RedisCacheService implements ICacheService {
 
     try {
       return await redisClient.incrby(key, amount);
-    } catch (error) {
-      this.logger.error(`Cache incr error for key: ${key}`, error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Cache incr error for key: ${key}`, { error: msg });
       return 0;
     }
   }
@@ -135,7 +147,11 @@ export class RedisCacheService implements ICacheService {
   /**
    * Set with expiration at specific time
    */
-  async setWithExpire(key: string, value: unknown, expiresAt: Date): Promise<void> {
+  async setWithExpire(
+    key: string,
+    value: string | number | boolean | null | undefined | object,
+    expiresAt: Date,
+  ): Promise<void> {
     if (!redisClient) return;
 
     try {
@@ -143,8 +159,9 @@ export class RedisCacheService implements ICacheService {
       const expiryTimestamp = Math.floor(expiresAt.getTime() / 1000);
 
       await redisClient.set(key, serialized, 'EXAT', expiryTimestamp);
-    } catch (error) {
-      this.logger.error(`Cache setWithExpire error for key: ${key}`, error);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : String(error);
+      this.logger.error(`Cache setWithExpire error for key: ${key}`, { error: msg });
     }
   }
 }

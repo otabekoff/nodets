@@ -38,7 +38,10 @@ class Server {
       // Setup graceful shutdown
       this.setupGracefulShutdown();
     } catch (error) {
-      this.logger.error('Failed to start server', error);
+      this.logger.error('Failed to start server', {
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      });
       process.exit(1);
     }
   }
@@ -71,7 +74,9 @@ class Server {
         // Exit process
         process.exit(0);
       } catch (error) {
-        this.logger.error('Error during shutdown', error);
+        this.logger.error('Error during shutdown', {
+          error: error instanceof Error ? error.message : String(error),
+        });
         process.exit(1);
       }
     };
@@ -82,12 +87,17 @@ class Server {
 
     // Handle uncaught errors
     process.on('uncaughtException', (error) => {
-      this.logger.error('Uncaught Exception', error);
+      this.logger.error('Uncaught Exception', {
+        error: error.message,
+        stack: error.stack,
+      });
       process.exit(1);
     });
 
     process.on('unhandledRejection', (reason) => {
-      this.logger.error('Unhandled Rejection', reason);
+      this.logger.error('Unhandled Rejection', {
+        reason: reason instanceof Error ? reason.message : String(reason),
+      });
       process.exit(1);
     });
   }

@@ -3,7 +3,7 @@
 // ============================================================================
 import { injectable } from 'inversify';
 import pino from 'pino';
-import type { ILogger } from '@core/interfaces/index.js';
+import type { ILogger, LogMeta } from '@core/interfaces/index.js';
 import { config } from '@core/config/index.js';
 
 @injectable()
@@ -30,19 +30,19 @@ export class Logger implements ILogger {
     this.logger = pino(loggerOptions);
   }
 
-  info(message: string, meta?: unknown): void {
+  info(message: string, meta?: LogMeta): void {
     this.logger.info(meta, message);
   }
 
-  error(message: string, meta?: unknown): void {
+  error(message: string, meta?: LogMeta): void {
     this.logger.error(meta, message);
   }
 
-  warn(message: string, meta?: unknown): void {
+  warn(message: string, meta?: LogMeta): void {
     this.logger.warn(meta, message);
   }
 
-  debug(message: string, meta?: unknown): void {
+  debug(message: string, meta?: LogMeta): void {
     this.logger.debug(meta, message);
   }
 }

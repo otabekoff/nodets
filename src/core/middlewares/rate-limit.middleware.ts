@@ -1,6 +1,7 @@
 // ============================================================================
 // core/middlewares/rate-limit.middleware.ts
 // ============================================================================
+import type { NextFunction, Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
 import { RateLimitError } from '@core/errors/index.js';
 
@@ -13,7 +14,7 @@ export const createRateLimiter = (options?: {
   message?: string;
 }) => {
   if (process.env.NODE_ENV === 'test') {
-    return (_req: unknown, _res: unknown, next: () => void) => next();
+    return (_req: Request, _res: Response, next: NextFunction) => next();
   }
 
   return rateLimit({

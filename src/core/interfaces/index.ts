@@ -6,9 +6,11 @@ import type { NextFunction, Request, Response } from 'express';
  * Generic repository interface that all repositories should implement.
  * Follows the Repository pattern from DDD.
  */
+export type FilterValue = string | number | boolean | string[] | number[] | Date | null;
+export type FilterRecord = Record<string, FilterValue | undefined>;
 export interface IRepository<T, ID = string> {
   findById(id: ID): Promise<T | null>;
-  findAll(filters?: Record<string, unknown>): Promise<T[]>;
+  findAll(filters?: FilterRecord): Promise<T[]>;
   create(data: Partial<T>): Promise<T>;
   update(id: ID, data: Partial<T>): Promise<T | null>;
   delete(id: ID): Promise<boolean>;
@@ -39,11 +41,11 @@ export interface IController {
  * Used for implementing version-specific behavior without duplicating code.
  * Each version implements this interface with its own logic.
  */
-export interface IVersionStrategy<T = unknown> {
+export interface IVersionStrategy<TContext = Record<string, unknown>, TResult = unknown> {
   readonly version: string;
-  execute(context: T): Promise<unknown>;
-  transform?(data: unknown): unknown;
-  validate?(data: unknown): boolean;
+  execute(context: TContext): Promise<TResult>;
+  transform?(data: TContext): TResult;
+  validate?(data: TContext): boolean;
 }
 
 /**
@@ -59,8 +61,8 @@ export interface IUseCase<TRequest, TResponse> {
 /**
  * Event Handler Interface
  */
-export interface IEventHandler<T = unknown> {
-  handle(event: T): Promise<void>;
+export interface IEventHandler<TEvent = unknown> {
+  handle(event: TEvent): Promise<void>;
 }
 
 /**
@@ -93,14 +95,14 @@ export interface IPaginatedResponse<T> {
 /**
  * API Response Interface
  */
-export interface IApiResponse<T = unknown> {
+export interface IApiResponse<T = void> {
   success: boolean;
   message?: string;
   data?: T;
   error?: {
     code: string;
     message: string;
-    details?: unknown;
+    details?: Record<string, string | number | boolean | null | undefined | object> | undefined;
   };
   meta?: {
     timestamp: string;
@@ -121,13 +123,18 @@ export interface ICacheService {
 }
 
 /**
+ * Logger Metadata Interface
+ */
+export type LogMeta = Record<string, string | number | boolean | null | undefined | object>;
+
+/**
  * Logger Interface
  */
 export interface ILogger {
-  info(message: string, meta?: unknown): void;
-  error(message: string, meta?: unknown): void;
-  warn(message: string, meta?: unknown): void;
-  debug(message: string, meta?: unknown): void;
+  info(message: string, meta?: LogMeta): void;
+  error(message: string, meta?: LogMeta): void;
+  warn(message: string, meta?: LogMeta): void;
+  debug(message: string, meta?: LogMeta): void;
 }
 
 /**

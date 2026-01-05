@@ -1,18 +1,19 @@
-type Handler = (...args: unknown[]) => void;
+type Handler<A extends unknown[] = unknown[]> = (...args: A) => void;
 
-export class EventEmitter {
-  private handlers: Record<string, Handler[]> = {};
+export class EventEmitter<TEvents extends Record<string, unknown[]> = Record<string, unknown[]>> {
+  private handlers: { [K in keyof TEvents]?: Handler<TEvents[K]>[] } = {};
 
-  on(event: string, handler: Handler) {
+  on<K extends keyof TEvents>(event: K, handler: Handler<TEvents[K]>) {
     if (!this.handlers[event]) this.handlers[event] = [];
-    this.handlers[event].push(handler);
+    this.handlers[event]?.push(handler);
   }
 
-  emit(event: string, ...args: unknown[]) {
+  emit<K extends keyof TEvents>(event: K, ...args: TEvents[K]) {
     (this.handlers[event] || []).forEach((h) => h(...args));
   }
 
-  off(event: string, handler: Handler) {
-    this.handlers[event] = (this.handlers[event] || []).filter((h) => h !== handler);
+  off<K extends keyof TEvents>(event: K, handler: Handler<TEvents[K]>) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.handlers[event] = (this.handlers[event] || []).filter((h) => h !== handler) as any;
   }
 }

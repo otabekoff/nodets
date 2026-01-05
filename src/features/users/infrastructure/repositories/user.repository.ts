@@ -3,6 +3,7 @@
 // ============================================================================
 import { injectable } from 'inversify';
 import { prisma } from '@infrastructure/database/index.js';
+import type { FilterRecord } from '@core/interfaces/index.js';
 import { User } from '../../domain/User.entity.js';
 import { UserMapper, type PrismaUser } from '../mappers/user.mapper.js';
 
@@ -24,9 +25,14 @@ export class UserRepository {
     return user ? this.mapper.toDomain(user as PrismaUser) : null;
   }
 
-  async findAll(filters?: Record<string, unknown>): Promise<User[]> {
+  async findAll(filters?: FilterRecord): Promise<User[]> {
+    // Use 'any' here as Prisma's 'where' clause type is internally
+    // complex and generated based on the schema, but FilterRecord
+    // provides the necessary clarity for the input.
+
     const users = filters
-      ? await prisma.user.findMany({ where: filters as never })
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await prisma.user.findMany({ where: filters as any })
       : await prisma.user.findMany();
     return users.map((user: PrismaUser) => this.mapper.toDomain(user));
   }
