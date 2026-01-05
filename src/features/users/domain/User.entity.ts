@@ -12,7 +12,7 @@ export class User {
     public role: string = 'user',
     public isActive: boolean = true,
     public createdAt: Date = new Date(),
-    public updatedAt: Date = new Date()
+    public updatedAt: Date = new Date(),
   ) {
     this.validate();
   }

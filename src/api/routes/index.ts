@@ -19,7 +19,7 @@ router.use('/v1', v1Routes);
 router.use('/v2', v2Routes);
 
 // Root health check
-router.get('/health', (req, res) => {
+router.get('/health', (_req, res) => {
   res.json({
     success: true,
     data: {
@@ -31,7 +31,7 @@ router.get('/health', (req, res) => {
 });
 
 // API documentation redirect
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   res.json({
     success: true,
     message: 'Welcome to the API',

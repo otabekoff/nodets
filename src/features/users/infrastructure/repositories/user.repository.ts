@@ -2,51 +2,50 @@
 // features/users/infrastructure/repositories/user.repository.ts
 // ============================================================================
 import { injectable } from 'inversify';
-import { PrismaClient } from '@prisma/client';
-import { IUserRepository } from './user.repository.interface.js';
+import { prisma } from '@infrastructure/database/index.js';
 import { User } from '../../domain/User.entity.js';
 import { UserMapper } from '../mappers/user.mapper.js';
 
 @injectable()
-export class UserRepository implements IUserRepository {
-  private prisma: PrismaClient;
+export class UserRepository {
   private mapper: UserMapper;
 
   constructor() {
-    this.prisma = new PrismaClient();
     this.mapper = new UserMapper();
   }
 
   async findById(id: string): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({ where: { id } });
+    const user = await prisma.user.findUnique({ where: { id } });
     return user ? this.mapper.toDomain(user) : null;
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email } });
     return user ? this.mapper.toDomain(user) : null;
   }
 
   async findAll(filters?: Record<string, any>): Promise<User[]> {
-    const users = await this.prisma.user.findMany({ where: filters });
-    return users.map(user => this.mapper.toDomain(user));
+    const users = filters
+      ? await prisma.user.findMany({ where: filters })
+      : await prisma.user.findMany();
+    return users.map((user: any) => this.mapper.toDomain(user));
   }
 
   async findActive(): Promise<User[]> {
-    const users = await this.prisma.user.findMany({ 
-      where: { isActive: true } 
+    const users = await prisma.user.findMany({
+      where: { isActive: true },
     });
-    return users.map(user => this.mapper.toDomain(user));
+    return users.map((user: any) => this.mapper.toDomain(user));
   }
 
   async create(data: Partial<User>): Promise<User> {
     const persistence = this.mapper.toPersistence(data as User);
-    const created = await this.prisma.user.create({ data: persistence });
+    const created = await prisma.user.create({ data: persistence });
     return this.mapper.toDomain(created);
   }
 
   async update(id: string, data: Partial<User>): Promise<User | null> {
-    const updated = await this.prisma.user.update({
+    const updated = await prisma.user.update({
       where: { id },
       data: this.mapper.toPersistence(data as User),
     });
@@ -54,12 +53,12 @@ export class UserRepository implements IUserRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    await this.prisma.user.delete({ where: { id } });
+    await prisma.user.delete({ where: { id } });
     return true;
   }
 
   async exists(id: string): Promise<boolean> {
-    const count = await this.prisma.user.count({ where: { id } });
+    const count = await prisma.user.count({ where: { id } });
     return count > 0;
   }
 }

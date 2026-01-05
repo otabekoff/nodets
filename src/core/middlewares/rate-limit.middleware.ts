@@ -17,10 +17,8 @@ export const createRateLimiter = (options?: {
     max: options?.max || 100, // limit each IP to 100 requests per windowMs
     standardHeaders: true,
     legacyHeaders: false,
-    handler: (req, res) => {
-      throw new RateLimitError(
-        options?.message || 'Too many requests, please try again later'
-      );
+    handler: (_req, _res) => {
+      throw new RateLimitError(options?.message || 'Too many requests, please try again later');
     },
   });
 };

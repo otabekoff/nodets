@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 
 /**
  * Base Repository Interface
- * 
+ *
  * Generic repository interface that all repositories should implement.
  * Follows the Repository pattern from DDD.
  */
@@ -35,7 +35,7 @@ export interface IController {
 
 /**
  * Version Strategy Interface
- * 
+ *
  * Used for implementing version-specific behavior without duplicating code.
  * Each version implements this interface with its own logic.
  */
@@ -48,7 +48,7 @@ export interface IVersionStrategy<T = any> {
 
 /**
  * Use Case Interface
- * 
+ *
  * Represents a single use case (user story) in the application.
  * Follows the Use Case pattern from Clean Architecture.
  */
@@ -132,7 +132,7 @@ export interface ILogger {
 
 /**
  * Mapper Interface
- * 
+ *
  * Used for transforming between different representations of data
  * (e.g., Domain Entity <-> Database Model <-> DTO)
  */

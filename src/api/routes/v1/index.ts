@@ -14,8 +14,22 @@ const router = Router();
 router.use('/users', usersRoutes);
 router.use('/auth', authRoutes);
 
+// Base route for v1
+router.get('/', (_req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to API v1',
+    documentation: '/api-docs',
+    endpoints: {
+      users: '/api/v1/users',
+      auth: '/api/v1/auth',
+      health: '/api/v1/health',
+    },
+  });
+});
+
 // Health check endpoint
-router.get('/health', (req, res) => {
+router.get('/health', (_req, res) => {
   res.json({
     success: true,
     data: {

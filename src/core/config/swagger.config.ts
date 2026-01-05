@@ -1,7 +1,7 @@
-import { Application } from 'express';
+import type { Application } from 'express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import { serve as redocServe, setup as redocSetup } from 'redoc-express';
+import * as redoc from 'redoc-express';
 import { config } from './index.js';
 
 /**
@@ -14,56 +14,56 @@ const swaggerOptions: swaggerJsdoc.Options = {
       title: 'Node.js TypeScript API',
       version: '2.0.0',
       description: `
-        # Enterprise-grade Node.js TypeScript API
-        
-        This API follows Clean Architecture principles with:
-        - **API Versioning**: Support for multiple API versions (v1, v2)
-        - **Feature-based Architecture**: Organized by business domains
-        - **SOLID Principles**: Dependency injection and separation of concerns
-        - **Type Safety**: Full TypeScript implementation
-        - **Documentation**: Swagger UI and ReDoc
-        
-        ## Authentication
-        
-        Most endpoints require authentication using JWT tokens:
-        
-        \`\`\`
-        Authorization: Bearer <your-jwt-token>
-        \`\`\`
-        
-        ## Versioning
-        
-        The API supports versioning through multiple methods:
-        
-        1. **URL Path** (Recommended): \`/api/v1/users\`
-        2. **Header**: \`API-Version: v1\`
-        3. **Query Parameter**: \`/api/users?version=v1\`
-        
-        ## Rate Limiting
-        
-        API requests are rate-limited:
-        - **General API**: 100 requests per 15 minutes
-        - **Auth Endpoints**: 5 requests per 15 minutes
-        
-        ## Error Handling
-        
-        All errors follow a consistent format:
-        
-        \`\`\`json
-        {
-          "success": false,
-          "error": {
-            "code": "ERROR_CODE",
-            "message": "Human-readable error message",
-            "details": {}
-          },
-          "meta": {
-            "timestamp": "2025-01-05T10:00:00.000Z",
-            "path": "/api/v1/users"
-          }
-        }
-        \`\`\`
-      `,
+# Enterprise-grade Node.js TypeScript API
+
+This API follows Clean Architecture principles with:
+- **API Versioning**: Support for multiple API versions (v1, v2)
+- **Feature-based Architecture**: Organized by business domains
+- **SOLID Principles**: Dependency injection and separation of concerns
+- **Type Safety**: Full TypeScript implementation
+- **Documentation**: Swagger UI and ReDoc
+
+## Authentication
+
+Most endpoints require authentication using JWT tokens:
+
+\`\`\`
+Authorization: Bearer <your-jwt-token>
+\`\`\`
+
+## Versioning
+
+The API supports versioning through multiple methods:
+
+1. **URL Path** (Recommended): \`/api/v1/users\`
+2. **Header**: \`API-Version: v1\`
+3. **Query Parameter**: \`/api/users?version=v1\`
+
+## Rate Limiting
+
+API requests are rate-limited:
+- **General API**: 100 requests per 15 minutes
+- **Auth Endpoints**: 5 requests per 15 minutes
+
+## Error Handling
+
+All errors follow a consistent format:
+
+\`\`\`json
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error message",
+    "details": {}
+  },
+  "meta": {
+    "timestamp": "2025-01-05T10:00:00.000Z",
+    "path": "/api/v1/users"
+  }
+}
+\`\`\`
+`,
       contact: {
         name: 'Otabek Sadiridinov',
         url: 'https://github.com/otabekoff',
@@ -161,8 +161,8 @@ const swaggerOptions: swaggerJsdoc.Options = {
                     details: {
                       type: 'object',
                       example: {
-                        'email': ['Invalid email address'],
-                        'password': ['Password must be at least 8 characters'],
+                        email: ['Invalid email address'],
+                        password: ['Password must be at least 8 characters'],
                       },
                     },
                   },
@@ -332,10 +332,7 @@ const swaggerOptions: swaggerJsdoc.Options = {
       },
     ],
   },
-  apis: [
-    './src/api/routes/**/*.ts',
-    './src/features/**/presentation/controllers/*.ts',
-  ],
+  apis: ['./src/api/routes/**/*.ts', './src/features/**/presentation/controllers/*.ts'],
 };
 
 /**
@@ -355,24 +352,29 @@ export function setupSwagger(app: Application): void {
       explorer: true,
       customCss: '.swagger-ui .topbar { display: none }',
       customSiteTitle: 'API Documentation',
-    })
+    }),
   );
 
-  // ReDoc
-  app.get('/redoc', redocServe, redocSetup(swaggerSpec, {
-    theme: {
-      colors: {
-        primary: {
-          main: '#2563eb',
+  // ReDoc - using default export
+  const redocHandler = (redoc as any).default || redoc;
+  if (typeof redocHandler === 'function') {
+    app.get(
+      '/redoc',
+      redocHandler(swaggerSpec, {
+        title: 'API Documentation',
+        theme: {
+          colors: {
+            primary: {
+              main: '#2563eb',
+            },
+          },
         },
-      },
-    },
-  }, {
-    title: 'API Documentation',
-  }));
+      }),
+    );
+  }
 
   // Swagger JSON endpoint
-  app.get('/api-docs.json', (req, res) => {
+  app.get('/api-docs.json', (_req, res) => {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });

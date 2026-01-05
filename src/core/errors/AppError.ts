@@ -1,39 +1,23 @@
-// core/errors/AppError.ts
+// ============================================================================
+// core/errors/AppError.ts - Base Application Error Class
+// ============================================================================
 export class AppError extends Error {
+  public readonly code: string;
+  public readonly isOperational: boolean;
+
   constructor(
-    public statusCode: number,
-    public message: string,
-    public isOperational = true,
-    public stack = ''
+    public override readonly message: string,
+    public readonly statusCode: number,
+    code?: string,
   ) {
     super(message);
-    if (stack) {
-      this.stack = stack;
-    } else {
-      Error.captureStackTrace(this, this.constructor);
-    }
+    this.code = code || 'APP_ERROR';
+    this.isOperational = true;
+
+    // Maintains proper stack trace for where error was thrown
+    Error.captureStackTrace(this, this.constructor);
+
+    // Set the prototype explicitly for proper instanceof checks
+    Object.setPrototypeOf(this, AppError.prototype);
   }
 }
-
-// core/middlewares/error.middleware.ts
-export const errorHandler = (
-  err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
-      status: 'error',
-      message: err.message
-    });
-  }
-  
-  // Log unexpected errors
-  logger.error(err);
-  
-  return res.status(500).json({
-    status: 'error',
-    message: 'Internal server error'
-  });
-};

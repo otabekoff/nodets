@@ -3,7 +3,7 @@
 // ============================================================================
 import { injectable } from 'inversify';
 import pino from 'pino';
-import { ILogger } from '@core/interfaces/index.js';
+import type { ILogger } from '@core/interfaces/index.js';
 import { config } from '@core/config/index.js';
 
 @injectable()
@@ -11,17 +11,23 @@ export class Logger implements ILogger {
   private logger: pino.Logger;
 
   constructor() {
-    this.logger = pino({
+    const loggerOptions: pino.LoggerOptions = {
       level: config.LOG_LEVEL,
-      transport: config.NODE_ENV === 'development' ? {
+    };
+
+    // Only add transport in development mode
+    if (config.NODE_ENV === 'development') {
+      loggerOptions.transport = {
         target: 'pino-pretty',
         options: {
           colorize: true,
           translateTime: 'SYS:standard',
           ignore: 'pid,hostname',
         },
-      } : undefined,
-    });
+      };
+    }
+
+    this.logger = pino(loggerOptions);
   }
 
   info(message: string, meta?: any): void {

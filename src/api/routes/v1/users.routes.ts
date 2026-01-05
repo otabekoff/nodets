@@ -57,7 +57,7 @@ router.post(
   authenticate,
   authorize('admin'),
   validate(z.object({ body: CreateUserDtoSchema })),
-  asyncHandler(userController.createUser.bind(userController))
+  asyncHandler(userController.createUser.bind(userController)),
 );
 
 /**
@@ -80,10 +80,6 @@ router.post(
  *       404:
  *         description: User not found
  */
-router.get(
-  '/:id',
-  authenticate,
-  asyncHandler(userController.getUser.bind(userController))
-);
+router.get('/:id', authenticate, asyncHandler(userController.getUser.bind(userController)));
 
 export default router;

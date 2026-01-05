@@ -47,7 +47,7 @@ router.post(
   '/register',
   authLimiter,
   validate(z.object({ body: RegisterDtoSchema })),
-  asyncHandler(authController.register.bind(authController))
+  asyncHandler(authController.register.bind(authController)),
 );
 
 /**
@@ -80,7 +80,7 @@ router.post(
   '/login',
   authLimiter,
   validate(z.object({ body: LoginDtoSchema })),
-  asyncHandler(authController.login.bind(authController))
+  asyncHandler(authController.login.bind(authController)),
 );
 
 export default router;

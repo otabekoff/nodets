@@ -1,7 +1,7 @@
 // ============================================================================
 // core/middlewares/auth.middleware.ts
 // ============================================================================
-import { Request, Response, NextFunction } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { AuthenticationError, AuthorizationError } from '@core/errors/index.js';
 
@@ -22,8 +22,8 @@ declare global {
  */
 export const authenticate = async (
   req: Request,
-  res: Response,
-  next: NextFunction
+  _res: Response,
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const token = extractToken(req);
@@ -49,7 +49,7 @@ export const authenticate = async (
  * Authorization Middleware Factory
  */
 export const authorize = (...roles: string[]) => {
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return (req: Request, _res: Response, next: NextFunction): void => {
     if (!req.user) {
       next(new AuthenticationError('Authentication required'));
       return;

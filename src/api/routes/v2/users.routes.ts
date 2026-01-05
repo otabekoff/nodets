@@ -55,7 +55,7 @@ router.post(
   authenticate,
   authorize('admin'),
   validate(z.object({ body: CreateUserDtoSchema })),
-  asyncHandler(userController.createUser.bind(userController))
+  asyncHandler(userController.createUser.bind(userController)),
 );
 
 /**
@@ -76,10 +76,6 @@ router.post(
  *       200:
  *         description: User found with enhanced profile data
  */
-router.get(
-  '/:id',
-  authenticate,
-  asyncHandler(userController.getUser.bind(userController))
-);
+router.get('/:id', authenticate, asyncHandler(userController.getUser.bind(userController)));
 
 export default router;

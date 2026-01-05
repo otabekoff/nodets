@@ -1,8 +1,8 @@
 // ============================================================================
 // core/middlewares/request-logger.middleware.ts
 // ============================================================================
-import { Request, Response, NextFunction } from 'express';
-import { ILogger } from '@core/interfaces/index.js';
+import type { NextFunction, Request, Response } from 'express';
+import type { ILogger } from '@core/interfaces/index.js';
 import { nanoid } from 'nanoid';
 
 declare global {
@@ -25,7 +25,7 @@ export class RequestLoggerMiddleware {
 
     // Log request
     const startTime = Date.now();
-    
+
     this.logger.info('Incoming request', {
       requestId: req.requestId,
       method: req.method,
@@ -38,7 +38,7 @@ export class RequestLoggerMiddleware {
     // Log response
     res.on('finish', () => {
       const duration = Date.now() - startTime;
-      
+
       this.logger.info('Request completed', {
         requestId: req.requestId,
         method: req.method,

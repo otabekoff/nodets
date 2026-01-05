@@ -1,9 +1,9 @@
 // ============================================================================
 // core/middlewares/error.middleware.ts
 // ============================================================================
-import { Request, Response, NextFunction } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { AppError, ValidationError } from '@core/errors/index.js';
-import { ILogger } from '@core/interfaces/index.js';
+import type { ILogger } from '@core/interfaces/index.js';
 
 /**
  * Global Error Handler Middleware
@@ -11,12 +11,7 @@ import { ILogger } from '@core/interfaces/index.js';
 export class ErrorMiddleware {
   constructor(private logger: ILogger) {}
 
-  handle = (
-    err: Error,
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): void => {
+  handle = (err: Error, req: Request, res: Response, _next: NextFunction): void => {
     // Handle operational errors (known errors)
     if (err instanceof AppError && err.isOperational) {
       this.handleOperationalError(err, req, res);
@@ -33,11 +28,7 @@ export class ErrorMiddleware {
     this.handleUnknownError(err, req, res);
   };
 
-  private handleOperationalError(
-    err: AppError,
-    req: Request,
-    res: Response
-  ): void {
+  private handleOperationalError(err: AppError, req: Request, res: Response): void {
     this.logger.warn(`Operational error: ${err.message}`, {
       code: err.code,
       statusCode: err.statusCode,
@@ -58,11 +49,7 @@ export class ErrorMiddleware {
     });
   }
 
-  private handleValidationError(
-    err: ValidationError,
-    req: Request,
-    res: Response
-  ): void {
+  private handleValidationError(err: ValidationError, req: Request, res: Response): void {
     this.logger.warn(`Validation error: ${err.message}`, {
       errors: err.errors,
       path: req.path,
@@ -90,10 +77,7 @@ export class ErrorMiddleware {
     });
 
     // Don't expose internal error details in production
-    const message =
-      process.env.NODE_ENV === 'production'
-        ? 'Internal server error'
-        : err.message;
+    const message = process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message;
 
     res.status(500).json({
       success: false,

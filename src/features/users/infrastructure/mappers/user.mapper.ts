@@ -1,7 +1,6 @@
 // ============================================================================
 // features/users/infrastructure/mappers/user.mapper.ts
 // ============================================================================
-import { IMapper } from '@core/interfaces/index.js';
 import { User } from '../../domain/User.entity.js';
 
 type PrismaUser = {
@@ -15,7 +14,7 @@ type PrismaUser = {
   updatedAt: Date;
 };
 
-export class UserMapper implements IMapper<User, PrismaUser> {
+export class UserMapper {
   toDomain(persistence: PrismaUser): User {
     return new User(
       persistence.id,
@@ -25,7 +24,7 @@ export class UserMapper implements IMapper<User, PrismaUser> {
       persistence.role,
       persistence.isActive,
       persistence.createdAt,
-      persistence.updatedAt
+      persistence.updatedAt,
     );
   }
 

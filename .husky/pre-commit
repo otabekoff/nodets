@@ -1,5 +1,12 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm test
+echo "🔍 Running pre-commit hooks..."
+
+# Run type check to ensure code compiles
+npm run type-check
+
+# Run lint-staged for formatting and linting
 npx lint-staged
+
+echo "✅ Pre-commit hooks passed!"

@@ -2,9 +2,9 @@
 // features/users/application/use-cases/CreateUserUseCase.ts
 // ============================================================================
 import { injectable, inject } from 'inversify';
-import { IUseCase } from '@core/interfaces/index.js';
+import type { IUseCase } from '@core/interfaces/index.js';
 import { TYPES } from '@core/di/types.js';
-import { IUserRepository } from '../../infrastructure/repositories/user.repository.interface.js';
+import type { IUserRepository } from '../../infrastructure/repositories/user.repository.interface.js';
 import { User } from '../../domain/User.entity.js';
 import { ConflictError } from '@core/errors/index.js';
 import { nanoid } from 'nanoid';
@@ -19,9 +19,7 @@ export interface CreateUserRequest {
 
 @injectable()
 export class CreateUserUseCase implements IUseCase<CreateUserRequest, User> {
-  constructor(
-    @inject(TYPES.UserRepository) private userRepository: IUserRepository
-  ) {}
+  constructor(@inject(TYPES.UserRepository) private userRepository: IUserRepository) {}
 
   async execute(request: CreateUserRequest): Promise<User> {
     // Check if user already exists
@@ -39,7 +37,7 @@ export class CreateUserUseCase implements IUseCase<CreateUserRequest, User> {
       request.email,
       request.name,
       hashedPassword,
-      request.role || 'user'
+      request.role || 'user',
     );
 
     // Persist to database

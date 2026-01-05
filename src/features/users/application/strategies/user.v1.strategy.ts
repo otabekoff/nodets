@@ -2,7 +2,7 @@
 // features/users/application/strategies/user.v1.strategy.ts
 // ============================================================================
 import { injectable } from 'inversify';
-import { IVersionStrategy } from '@core/interfaces/index.js';
+import type { IVersionStrategy } from '@core/interfaces/index.js';
 import { User } from '../../domain/User.entity.js';
 
 interface UserV1Response {

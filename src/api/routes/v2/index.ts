@@ -11,8 +11,22 @@ const router = Router();
  */
 router.use('/users', usersRoutes);
 
+// Base route for v2
+router.get('/', (_req, res) => {
+  res.json({
+    success: true,
+    message: 'Welcome to API v2 (Enhanced)',
+    documentation: '/redoc',
+    endpoints: {
+      users: '/api/v2/users',
+      health: '/api/v2/health',
+    },
+    features: ['enhanced-profiles', 'advanced-filtering'],
+  });
+});
+
 // Health check endpoint
-router.get('/health', (req, res) => {
+router.get('/health', (_req, res) => {
   res.json({
     success: true,
     data: {
