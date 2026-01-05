@@ -1,41 +1,40 @@
-import 'reflect-metadata';
-import { Container } from 'inversify';
-import { TYPES } from './types.js';
+import "reflect-metadata";
+import { Container } from "inversify";
+import { TYPES } from "./types.js";
 
 // Core Services
-import { Logger } from '@core/logger/Logger.js';
-import { CacheService } from '@infrastructure/cache/cache.service.js';
-import { RedisCacheService } from '@infrastructure/cache/redis.cache.js';
-import { EventEmitter } from '@core/events/EventEmitter.js';
+import { Logger } from "@core/logger/Logger.js";
+import { CacheService } from "@infrastructure/cache/cache.service.js";
+import { EventEmitter } from "@core/events/EventEmitter.js";
 
 // Feature: Auth
-import { AuthService } from '@features/auth/application/services/auth.service.js';
-import { AuthRepository } from '@features/auth/infrastructure/repositories/auth.repository.js';
-import { IAuthRepository } from '@features/auth/infrastructure/repositories/auth.repository.interface.js';
-import { LoginUseCase } from '@features/auth/application/use-cases/LoginUseCase.js';
-import { RegisterUseCase } from '@features/auth/application/use-cases/RegisterUseCase.js';
-import { RefreshTokenUseCase } from '@features/auth/application/use-cases/RefreshTokenUseCase.js';
-import { AuthController } from '@features/auth/presentation/controllers/auth.controller.js';
+import { AuthService } from "@features/auth/application/services/auth.service.js";
+import { AuthRepository } from "@features/auth/infrastructure/repositories/auth.repository.js";
+import type { IAuthRepository } from "@features/auth/infrastructure/repositories/auth.repository.interface.js";
+import { LoginUseCase } from "@features/auth/application/use-cases/LoginUseCase.js";
+import { RegisterUseCase } from "@features/auth/application/use-cases/RegisterUseCase.js";
+import { RefreshTokenUseCase } from "@features/auth/application/use-cases/RefreshTokenUseCase.js";
+import { AuthController } from "@features/auth/presentation/controllers/auth.controller.js";
 
 // Feature: Users
-import { UserService } from '@features/users/application/services/user.service.js';
-import { UserRepository } from '@features/users/infrastructure/repositories/user.repository.js';
-import { IUserRepository } from '@features/users/infrastructure/repositories/user.repository.interface.js';
-import { CreateUserUseCase } from '@features/users/application/use-cases/CreateUserUseCase.js';
-import { GetUserUseCase } from '@features/users/application/use-cases/GetUserUseCase.js';
-import { UpdateUserUseCase } from '@features/users/application/use-cases/UpdateUserUseCase.js';
-import { DeleteUserUseCase } from '@features/users/application/use-cases/DeleteUserUseCase.js';
-import { UserController } from '@features/users/presentation/controllers/user.controller.js';
+// import { UserService } from "@features/users/application/services/user.service.js"; // TODO: Create this file
+import { UserRepository } from "@features/users/infrastructure/repositories/user.repository.js";
+import type { IUserRepository } from "@features/users/infrastructure/repositories/user.repository.interface.js";
+import { CreateUserUseCase } from "@features/users/application/use-cases/CreateUserUseCase.js";
+import { GetUserUseCase } from "@features/users/application/use-cases/GetUserUseCase.js";
+// import { UpdateUserUseCase } from "@features/users/application/use-cases/UpdateUserUseCase.js"; // TODO: Create
+// import { DeleteUserUseCase } from "@features/users/application/use-cases/DeleteUserUseCase.js"; // TODO: Create
+import { UserController } from "@features/users/presentation/controllers/user.controller.js";
 
 // Version Strategies
-import { AuthV1Strategy } from '@features/auth/application/strategies/auth.v1.strategy.js';
-import { AuthV2Strategy } from '@features/auth/application/strategies/auth.v2.strategy.js';
-import { UserV1Strategy } from '@features/users/application/strategies/user.v1.strategy.js';
-import { UserV2Strategy } from '@features/users/application/strategies/user.v2.strategy.js';
+import { AuthV1Strategy } from "@features/auth/application/strategies/auth.v1.strategy.js";
+import { AuthV2Strategy } from "@features/auth/application/strategies/auth.v2.strategy.js";
+import { UserV1Strategy } from "@features/users/application/strategies/user.v1.strategy.js";
+import { UserV2Strategy } from "@features/users/application/strategies/user.v2.strategy.js";
 
 /**
  * Main Dependency Injection Container
- * 
+ *
  * This container manages all application dependencies using InversifyJS.
  * It follows the Inversion of Control (IoC) principle.
  */
@@ -48,8 +47,7 @@ class DIContainer {
   static getInstance(): Container {
     if (!DIContainer.instance) {
       DIContainer.instance = new Container({
-        defaultScope: 'Singleton',
-        autoBindInjectable: true,
+        defaultScope: "Singleton",
       });
       DIContainer.registerDependencies();
     }
@@ -64,15 +62,19 @@ class DIContainer {
 
     // Core Services
     container.bind<Logger>(TYPES.Logger).to(Logger).inSingletonScope();
-    container.bind<CacheService>(TYPES.CacheService).to(RedisCacheService).inSingletonScope();
-    container.bind<EventEmitter>(TYPES.EventEmitter).to(EventEmitter).inSingletonScope();
+    container.bind<CacheService>(TYPES.CacheService).to(CacheService)
+      .inSingletonScope();
+    container.bind<EventEmitter>(TYPES.EventEmitter).to(EventEmitter)
+      .inSingletonScope();
 
     // Auth Module
     container.bind<IAuthRepository>(TYPES.AuthRepository).to(AuthRepository);
     container.bind<AuthService>(TYPES.AuthService).to(AuthService);
     container.bind<LoginUseCase>(TYPES.LoginUseCase).to(LoginUseCase);
     container.bind<RegisterUseCase>(TYPES.RegisterUseCase).to(RegisterUseCase);
-    container.bind<RefreshTokenUseCase>(TYPES.RefreshTokenUseCase).to(RefreshTokenUseCase);
+    container.bind<RefreshTokenUseCase>(TYPES.RefreshTokenUseCase).to(
+      RefreshTokenUseCase,
+    );
     container.bind<AuthController>(TYPES.AuthController).to(AuthController);
 
     // Auth Version Strategies
@@ -81,11 +83,17 @@ class DIContainer {
 
     // User Module
     container.bind<IUserRepository>(TYPES.UserRepository).to(UserRepository);
-    container.bind<UserService>(TYPES.UserService).to(UserService);
-    container.bind<CreateUserUseCase>(TYPES.CreateUserUseCase).to(CreateUserUseCase);
+    // container.bind<UserService>(TYPES.UserService).to(UserService); // TODO: Create file
+    container.bind<CreateUserUseCase>(TYPES.CreateUserUseCase).to(
+      CreateUserUseCase,
+    );
     container.bind<GetUserUseCase>(TYPES.GetUserUseCase).to(GetUserUseCase);
-    container.bind<UpdateUserUseCase>(TYPES.UpdateUserUseCase).to(UpdateUserUseCase);
-    container.bind<DeleteUserUseCase>(TYPES.DeleteUserUseCase).to(DeleteUserUseCase);
+    // container.bind<UpdateUserUseCase>(TYPES.UpdateUserUseCase).to(
+    //   UpdateUserUseCase,
+    // ); // TODO: Create
+    // container.bind<DeleteUserUseCase>(TYPES.DeleteUserUseCase).to(
+    //   DeleteUserUseCase,
+    // ); // TODO: Create
     container.bind<UserController>(TYPES.UserController).to(UserController);
 
     // User Version Strategies

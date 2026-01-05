@@ -23,6 +23,7 @@
       "@jobs/*": ["src/jobs/*"],
       "@docs/*": ["src/docs/*"],
       "@tests/*": ["tests/*"],
+      "@/generated/*": ["src/generated/*"],
     },
     "target": "ES2022",
     "lib": ["ES2022"],

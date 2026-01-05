@@ -3,7 +3,7 @@
 // ============================================================================
 // Express app setup
 import 'reflect-metadata';
-import express, { Application } from 'express';
+import express, { type Application } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';

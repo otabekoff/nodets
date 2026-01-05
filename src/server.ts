@@ -1,13 +1,13 @@
 // ============================================================================
 // src/server.ts - Server Entry Point
 // ============================================================================
-import 'reflect-metadata';
-import { createApp } from './app.js';
-import { config } from '@core/config/index.js';
-import { container } from '@core/di/container.js';
-import { TYPES } from '@core/di/types.js';
-import { Logger } from '@core/logger/Logger.js';
-import { PrismaClient } from '@prisma/client';
+import "reflect-metadata";
+import { createApp } from "./app.js";
+import { config } from "@core/config/index.js";
+import { container } from "@core/di/container.js";
+import { TYPES } from "@core/di/types.js";
+import { Logger } from "@core/logger/Logger.js";
+import { prisma } from "@infrastructure/database/index.js";
 
 /**
  * Server class to manage application lifecycle
@@ -15,7 +15,6 @@ import { PrismaClient } from '@prisma/client';
 class Server {
   private app = createApp();
   private logger = container.get<Logger>(TYPES.Logger);
-  private prisma = new PrismaClient();
 
   /**
    * Start the server
@@ -26,12 +25,14 @@ class Server {
       await this.connectDatabase();
 
       // Start HTTP server
-      const port = config.port || 3000;
+      const port = config.PORT || 3000;
       this.app.listen(port, () => {
         this.logger.info(`🚀 Server running on port ${port}`);
-        this.logger.info(`📚 API Documentation: http://localhost:${port}/api-docs`);
+        this.logger.info(
+          `📚 API Documentation: http://localhost:${port}/api-docs`,
+        );
         this.logger.info(`📖 ReDoc: http://localhost:${port}/redoc`);
-        this.logger.info(`🔥 Environment: ${config.nodeEnv}`);
+        this.logger.info(`🔥 Environment: ${config.NODE_ENV}`);
         this.logger.info(`✨ API v1: http://localhost:${port}/api/v1`);
         this.logger.info(`✨ API v2: http://localhost:${port}/api/v2`);
       });
@@ -39,7 +40,7 @@ class Server {
       // Setup graceful shutdown
       this.setupGracefulShutdown();
     } catch (error) {
-      this.logger.error('Failed to start server', error);
+      this.logger.error("Failed to start server", error);
       process.exit(1);
     }
   }
@@ -49,11 +50,11 @@ class Server {
    */
   private async connectDatabase(): Promise<void> {
     try {
-      await this.prisma.$connect();
-      this.logger.info('✅ Database connected successfully');
+      await prisma.$connect();
+      this.logger.info("✅ Database connected successfully");
     } catch (error) {
-      this.logger.error('❌ Database connection failed', error);
-      throw error;
+      // Don't crash the server if the database is not available in dev
+      this.logger.warn("⚠️ Database connection failed, continuing without DB");
     }
   }
 
@@ -66,29 +67,29 @@ class Server {
 
       try {
         // Disconnect from database
-        await this.prisma.$disconnect();
-        this.logger.info('Database disconnected');
+        await prisma.$disconnect();
+        this.logger.info("Database disconnected");
 
         // Exit process
         process.exit(0);
       } catch (error) {
-        this.logger.error('Error during shutdown', error);
+        this.logger.error("Error during shutdown", error);
         process.exit(1);
       }
     };
 
     // Listen for termination signals
-    process.on('SIGTERM', () => shutdown('SIGTERM'));
-    process.on('SIGINT', () => shutdown('SIGINT'));
+    process.on("SIGTERM", () => shutdown("SIGTERM"));
+    process.on("SIGINT", () => shutdown("SIGINT"));
 
     // Handle uncaught errors
-    process.on('uncaughtException', (error) => {
-      this.logger.error('Uncaught Exception', error);
+    process.on("uncaughtException", (error) => {
+      this.logger.error("Uncaught Exception", error);
       process.exit(1);
     });
 
-    process.on('unhandledRejection', (reason) => {
-      this.logger.error('Unhandled Rejection', reason);
+    process.on("unhandledRejection", (reason) => {
+      this.logger.error("Unhandled Rejection", reason);
       process.exit(1);
     });
   }

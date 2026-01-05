@@ -15,7 +15,7 @@ router.use('/users', usersRoutes);
 router.use('/auth', authRoutes);
 
 // Health check endpoint
-router.get('/health', (req, res) => {
+router.get('/health', (_req, res) => {
   res.json({
     success: true,
     data: {

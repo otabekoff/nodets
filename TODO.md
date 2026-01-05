@@ -1,3 +1,58 @@
+// ============================================================================
+// Migration workflow:
+// ============================================================================
+// 1. Initial setup
+npm run db:generate    // Generate Prisma client
+
+// 2. Create migration
+npm run db:migrate     // Create and apply migration
+
+// 3. Seed database
+npm run db:seed        // Run seed script
+
+// 4. Open Prisma Studio
+npm run db:studio      // Visual database editor
+
+
+## Cache usagge in service
+
+```ts
+// ============================================================================
+// Usage Example in Service
+// ============================================================================
+import { injectable, inject } from 'inversify';
+import { TYPES } from '@core/di/types.js';
+import { ICacheService } from '@infrastructure/cache/cache.interface.js';
+
+@injectable()
+export class UserService {
+  constructor(
+    @inject(TYPES.CacheService) private cache: ICacheService
+  ) {}
+
+  async getUserById(id: string): Promise<User | null> {
+    // Try cache first
+    const cacheKey = `user:${id}`;
+    const cached = await this.cache.get<User>(cacheKey);
+
+    if (cached) {
+      return cached;
+    }
+
+    // Fetch from database
+    const user = await this.repository.findById(id);
+
+    // Cache for 1 hour
+    if (user) {
+      await this.cache.set(cacheKey, user, 3600);
+    }
+
+    return user;
+  }
+}
+```
+
+
 why removed npm uninstall jest ts-jest @types/jest mongoose winston morgan? are we using instrad of these? 
 
 

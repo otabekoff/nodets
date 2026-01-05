@@ -1,6 +1,6 @@
 /**
  * Base Application Error
- * 
+ *
  * All custom errors extend this class.
  */
 export class AppError extends Error {
@@ -18,10 +18,10 @@ export class AppError extends Error {
     this.statusCode = statusCode;
     this.code = code;
     this.isOperational = isOperational;
-    
+
     // Maintains proper stack trace for where error was thrown
     Error.captureStackTrace(this, this.constructor);
-    
+
     // Set the prototype explicitly
     Object.setPrototypeOf(this, AppError.prototype);
   }
@@ -102,7 +102,7 @@ export class ServiceUnavailableError extends AppError {
 
 /**
  * Domain Error
- * 
+ *
  * Used for business logic violations
  */
 export class DomainError extends AppError {
@@ -114,7 +114,7 @@ export class DomainError extends AppError {
 
 /**
  * External Service Error
- * 
+ *
  * Used when external service calls fail
  */
 export class ExternalServiceError extends AppError {
@@ -133,7 +133,7 @@ export class ExternalServiceError extends AppError {
 export class DatabaseError extends AppError {
   constructor(message: string, originalError?: Error) {
     super(message, 500, 'DATABASE_ERROR', false);
-    if (originalError) {
+    if (originalError?.stack) {
       this.stack = originalError.stack;
     }
     Object.setPrototypeOf(this, DatabaseError.prototype);
