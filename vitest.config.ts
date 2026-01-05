@@ -9,10 +9,19 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      exclude: ['node_modules/', 'dist/', '**/*.test.ts', '**/*.spec.ts', '**/types/'],
+      exclude: [
+        'node_modules/',
+        'dist/',
+        '**/*.test.ts',
+        '**/*.spec.ts',
+        '**/types/',
+        'src/generated/**',
+        'src/tests/**',
+        'src/infrastructure/database/index.ts',
+      ],
     },
     include: ['**/*.test.ts'],
-    exclude: ['node_modules/', 'dist/', '**/types/', '**/fixtures/'],
+    exclude: ['node_modules/', 'dist/', '**/types/', '**/fixtures/', 'src/generated/**'],
     env: {
       DATABASE_URL:
         process.env.DATABASE_URL ||

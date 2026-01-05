@@ -76,4 +76,27 @@ describe('LoginUseCase', () => {
       }),
     ).rejects.toThrow(AuthenticationError);
   });
+
+  it('should throw AuthenticationError with invalid password', async () => {
+    const mockUser = new User(
+      '1',
+      'test@example.com',
+      'Test User',
+      '$2b$10$hashedpassword',
+      'user',
+      true,
+      new Date(),
+      new Date(),
+    );
+
+    mockAuthRepository.findUserByEmail.mockResolvedValue(mockUser);
+    vi.mocked(bcrypt.compare).mockImplementation(async () => false);
+
+    await expect(
+      useCase.execute({
+        email: 'test@example.com',
+        password: 'wrong-password',
+      }),
+    ).rejects.toThrow(AuthenticationError);
+  });
 });

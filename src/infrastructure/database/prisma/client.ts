@@ -11,7 +11,7 @@ const { Pool } = pkg;
 /**
  * Prisma Client Singleton with PostgreSQL Adapter for Prisma 7.x
  */
-class PrismaClientSingleton {
+export class PrismaClientSingleton {
   private static instance: PrismaClient;
 
   static getInstance(): PrismaClient {
@@ -34,6 +34,8 @@ class PrismaClientSingleton {
   static async disconnect(): Promise<void> {
     if (PrismaClientSingleton.instance) {
       await PrismaClientSingleton.instance.$disconnect();
+      // @ts-expect-error - resetting private static for full lifecycle control
+      PrismaClientSingleton.instance = null;
     }
   }
 }
