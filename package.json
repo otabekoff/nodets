@@ -100,6 +100,8 @@
     "husky": "9.1.7",
     "lint-staged": "^15.2.11",
     "lodash": "^4.17.21",
+    "lodash.get": "file:./stubs/lodash.get",
+    "lodash.isequal": "file:./stubs/lodash.isequal",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.4",
     "prisma": "^7.2.0",
@@ -158,7 +160,7 @@
     "glob": "^11.0.0",
     "inflight": "npm:lru-cache@^11.0.0",
     "z-schema": "6.0.2",
-    "lodash.get": "file:./infrastructure/stubs/lodash.get",
-    "lodash.isequal": "file:./infrastructure/stubs/lodash.isequal"
+    "lodash.get": "$lodash.get",
+    "lodash.isequal": "$lodash.isequal"
   }
 }
