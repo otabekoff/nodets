@@ -53,7 +53,7 @@ describe('LoginUseCase', () => {
 
     mockAuthRepository.findUserByEmail.mockResolvedValue(mockUser);
     mockAuthRepository.saveRefreshToken.mockResolvedValue(mockToken);
-    vi.mocked(bcrypt.compare).mockResolvedValue(true as never);
+    vi.mocked(bcrypt.compare).mockImplementation(async () => true);
 
     // Note: You'd need to mock bcrypt.compare here
     const result = await useCase.execute({

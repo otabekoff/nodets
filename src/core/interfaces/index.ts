@@ -109,6 +109,7 @@ export interface IApiResponse<T = void> {
     requestId: string;
     version: string;
   };
+  pagination?: IPagination;
 }
 
 /**

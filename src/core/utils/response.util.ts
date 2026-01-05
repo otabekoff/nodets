@@ -70,5 +70,5 @@ export function paginatedResponse<T>(
       total,
       totalPages,
     },
-  } as unknown as IApiResponse<T[]>;
+  };
 }

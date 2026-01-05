@@ -77,7 +77,8 @@ export class ErrorMiddleware {
     });
 
     // Don't expose internal error details in production
-    const message = process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message;
+    const message =
+      process.env.NODE_ENV === 'production' ? 'Internal server error' : (err.message as string);
 
     res.status(500).json({
       success: false,

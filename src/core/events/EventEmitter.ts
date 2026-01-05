@@ -13,7 +13,6 @@ export class EventEmitter<TEvents extends Record<string, unknown[]> = Record<str
   }
 
   off<K extends keyof TEvents>(event: K, handler: Handler<TEvents[K]>) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.handlers[event] = (this.handlers[event] || []).filter((h) => h !== handler) as any;
+    this.handlers[event] = (this.handlers[event] || []).filter((h) => h !== handler);
   }
 }
