@@ -39,6 +39,12 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/nodets?schema=public
+      JWT_SECRET: ${{ secrets.JWT_SECRET || 'ci-test-secret-key-at-least-32-chars-long' }}
+      JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'ci-refresh-secret-key-at-least-32-chars-long' }}
+
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -49,13 +55,10 @@ jobs:
       - run: npm install
       - name: Generate Prisma Client
         run: npx prisma generate
+      - name: Push Database Schema
+        run: npm run db:push
       - run: npm run type-check
       - run: npm run lint
       - run: npm run build
       - name: Run tests
         run: npm test
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/nodets?schema=public
-          JWT_SECRET: ${{ secrets.JWT_SECRET || 'ci-test-secret-key-at-least-32-chars-long' }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET || 'ci-refresh-secret-key-at-least-32-chars-long' }}
-          NODE_ENV: test
