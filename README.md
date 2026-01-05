@@ -4,16 +4,7 @@ A production-ready, scalable REST API built with Node.js, TypeScript, and Clean 
 
 ## ✨ Features
 
-### Architecture
-
-- 🏗️ **Clean Architecture** - Separation of concerns with clear boundaries
-- 📦 **Feature-Based** - Modular structure organized by business domains
-- 🔄 **API Versioning** - Support for multiple API versions (Strategy Pattern)
-- 💉 **Dependency Injection** - Using InversifyJS for IoC
-- 🎯 **Use Case Pattern** - Clear business logic separation
-- 📝 **Repository Pattern** - Data access abstraction
-
-### Development
+### Modern Stack
 
 - ⚡ **TypeScript** - Full type safety and modern JavaScript features
 - 🔥 **Hot Reload** - Development with tsx watch mode
@@ -295,76 +286,23 @@ npm run build
 npm start
 ```
 
-## KEY PRINCIPLES:
+## 📚 Documentation
 
-1. Clean Architecture Layers:
-   - Domain: Pure business logic, no dependencies
-   - Application: Use cases, orchestration
-   - Infrastructure: External concerns (DB, cache, etc.)
-   - Presentation: Controllers, DTOs, validators
-2. Dependency Rule:
-   Inner layers know nothing about outer layers
-   Dependencies point inward
-3. Feature-Based Organization:
-   Each feature is self-contained with its own layers
-4. Version Strategy Pattern:
-   Versions are behaviors, not folder structures
-   Strategy pattern allows runtime version selection
-5. Separation of Concerns:
-   Each file has a single responsibility
-   Clear boundaries between layers
+Detailed technical documentation can be found in the [docs/](docs/) folder:
 
-## 🏗️ Architecture Principles
+- [🏗️ Architecture & Principles](docs/ARCHITECTURE.md)
+- [🛠️ Development & Setup Guide](docs/DEVELOPMENT.md)
+- [📝 Implementation Guide](docs/IMPLEMENTATION_GUIDE.md)
+- [📊 Performance & Optimization](docs/COMPLETION_SUMMARY.md)
 
-### Clean Architecture Layers
+## 🤝 Community & Support
 
-1. **Domain Layer**
-   - Pure business logic
-   - No external dependencies
-   - Framework-independent
+We welcome contributions and value our community:
 
-2. **Application Layer**
-   - Use cases (user stories)
-   - Business orchestration
-   - Interfaces for infrastructure
-
-3. **Infrastructure Layer**
-   - External services (DB, cache, email)
-   - Framework implementations
-   - Third-party integrations
-
-4. **Presentation Layer**
-   - Controllers
-   - DTOs
-   - Request/Response handling
-
-### Design Patterns
-
-- **Repository Pattern**: Data access abstraction
-- **Use Case Pattern**: Single responsibility per business operation
-- **Strategy Pattern**: Version-specific behavior
-- **Factory Pattern**: Object creation
-- **Dependency Injection**: Loose coupling
-
-### SOLID Principles
-
-- **S**ingle Responsibility
-- **O**pen/Closed
-- **L**iskov Substitution
-- **I**nterface Segregation
-- **D**ependency Inversion
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- [🤝 Contributing Guide](CONTRIBUTING.md)
+- [📜 Code of Conduct](CODE_OF_CONDUCT.md)
+- [🔒 Security Policy](SECURITY.md)
+- [📝 License](LICENSE)
 
 ## 👤 Author
 

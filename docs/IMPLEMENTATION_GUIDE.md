@@ -5,6 +5,7 @@ This guide will help you refactor your existing Node.js TypeScript project to th
 ## 📋 Phase 1: Preparation (Day 1)
 
 ### 1.1 Backup Your Project
+
 ```bash
 # Create a backup branch
 git checkout -b backup/before-refactor
@@ -14,10 +15,10 @@ git push origin backup/before-refactor
 git checkout -b feature/clean-architecture-refactor
 ```
 
-
 ## 📋 Phase 10: Final Steps (Day 13)
 
 ### 10.1 Code Review Checklist
+
 - [ ] All files use path aliases (@core, @features, etc.)
 - [ ] All async functions are properly handled
 - [ ] Error handling is consistent
@@ -29,12 +30,14 @@ git checkout -b feature/clean-architecture-refactor
 - [ ] Environment variables are documented
 
 ### 10.2 Performance Testing
+
 ```bash
 # Load testing with autocannon
 npx autocannon -c 100 -d 30 http://localhost:3000/api/v1/health
 ```
 
 ### 10.3 Security Audit
+
 ```bash
 # Check for vulnerabilities
 npm audit
@@ -44,6 +47,7 @@ npm audit fix
 ```
 
 ### 10.4 Final Cleanup
+
 ```bash
 # Remove old files
 rm -rf src/api/v1/*.old
@@ -59,12 +63,14 @@ git push origin feature/clean-architecture-refactor
 ## 🎯 Migration Checklist
 
 ### Pre-Migration
+
 - [ ] Backup current codebase
 - [ ] Document current API behavior
 - [ ] Create test cases for existing functionality
 - [ ] Setup new branch
 
 ### Core Infrastructure
+
 - [ ] Install new dependencies
 - [ ] Update TypeScript configuration
 - [ ] Implement error classes
@@ -73,6 +79,7 @@ git push origin feature/clean-architecture-refactor
 - [ ] Implement core utilities
 
 ### Feature Migration
+
 - [ ] Migrate Users feature
 - [ ] Migrate Auth feature
 - [ ] Migrate Products feature
@@ -81,18 +88,21 @@ git push origin feature/clean-architecture-refactor
 - [ ] Write integration tests
 
 ### API Layer
+
 - [ ] Restructure routes
 - [ ] Implement versioned endpoints
 - [ ] Setup Swagger documentation
 - [ ] Test all endpoints
 
 ### Infrastructure
+
 - [ ] Setup database client
 - [ ] Implement cache service
 - [ ] Configure logging
 - [ ] Setup background jobs
 
 ### Testing & QA
+
 - [ ] Write unit tests (>80% coverage)
 - [ ] Write integration tests
 - [ ] Write e2e tests
@@ -100,6 +110,7 @@ git push origin feature/clean-architecture-refactor
 - [ ] Security audit
 
 ### Deployment
+
 - [ ] Setup Docker
 - [ ] Configure CI/CD
 - [ ] Deploy to staging
@@ -148,15 +159,19 @@ npm run dev
 ## 🆘 Troubleshooting
 
 ### Issue: Module not found errors
+
 **Solution**: Check tsconfig.json paths and tsc-alias configuration
 
 ### Issue: Dependency injection not working
+
 **Solution**: Ensure `reflect-metadata` is imported at the top of entry files
 
 ### Issue: Tests failing after migration
+
 **Solution**: Update test imports to use path aliases and check mock setup
 
 ### Issue: Prisma client not generated
+
 **Solution**: Run `npm run db:generate` after schema changes
 
 ---
