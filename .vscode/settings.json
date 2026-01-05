@@ -44,7 +44,7 @@
     "Cargo.toml": "Cargo.lock",
     "README.md": "CONTRIBUTING.md, CHANGELOG.md, CODE_OF_CONDUCT.md, SECURITY.md, GOVERNANCE.md, SUPPORT.md, ARCHITECTURE.md, AUTHORS.md, CONTRIBUTORS.md, DESIGN.md, DEVELOPMENT.md, DISCLAIMER.md, FAQ.md, INSTALL.md, MAINTAINERS.md, ROADMAP.md, STYLE_GUIDE.md, SUMMARY.md, USAGE.md",
     "TODO.md": "IMPLEMENTATION_GUIDE.md",
-    ".gitignore": ".dockerignore, .editorconfig, eslint.config.js, .lintstagedrc.js, .commitlintrc.js, .nvmrc, .prettierrc.json, .git-blame-ignore-revs, .gitattributes, .gitmodules, .huskyrc, .eslintignore, .docker-compose.override.yml, .node-version, .prettierignore, .npmrc",
+    ".gitignore": ".dockerignore, .editorconfig, eslint.config.js, .lintstagedrc.js, .commitlintrc.js, .nvmrc, .prettierrc.json, .git-blame-ignore-revs, .gitattributes, .gitmodules, .huskyrc, .eslintignore, .docker-compose.override.yml, .node-version, .prettierignore, .npmrc, .release-it.json",
     "docker-compose.yml": "Dockerfile, docker-compose.dev.yml, docker-compose.prod.yml",
     ".env": ".env.example, .env.staging, .env.production, .env.local, .env.test"
   }

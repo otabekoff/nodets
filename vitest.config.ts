@@ -16,7 +16,7 @@ export default defineConfig({
     env: {
       DATABASE_URL:
         process.env.DATABASE_URL ||
-        'postgresql://postgres:postgres@localhost:5432/nodets?schema=public',
+        'postgresql://postgres:12431243aA@localhost:5432/nodets?schema=public',
       JWT_SECRET: process.env.JWT_SECRET || 'test-secret-key-that-is-at-least-32-chars-long',
       JWT_REFRESH_SECRET:
         process.env.JWT_REFRESH_SECRET || 'test-refresh-secret-key-at-least-32-chars-long',
