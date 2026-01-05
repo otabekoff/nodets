@@ -88,8 +88,8 @@
     "@types/supertest": "6.0.3",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
-    "@typescript-eslint/eslint-plugin": "^8.51.0",
-    "@typescript-eslint/parser": "^8.51.0",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/ui": "^4.0.16",
     "concurrently": "^9.2.1",
@@ -129,7 +129,7 @@
     "express-session": "^1.18.2",
     "helmet": "^8.1.0",
     "inversify": "^7.10.8",
-    "ioredis": "^5.8.2",
+    "ioredis": "^5.9.0",
     "joi": "^18.0.2",
     "jsonwebtoken": "^9.0.3",
     "nanoid": "^5.1.6",
@@ -155,6 +155,7 @@
   },
   "overrides": {
     "glob": "^11.0.0",
-    "inflight": "npm:lru-cache@^11.0.0"
+    "inflight": "lru-cache@^11.0.0",
+    "z-schema": "6.0.2"
   }
 }
