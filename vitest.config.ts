@@ -11,8 +11,8 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       exclude: ['node_modules/', 'dist/', '**/*.test.ts', '**/*.spec.ts', '**/types/'],
     },
-    include: ['tests/**/*.test.ts', 'src/**/*.test.ts'],
-    exclude: ['node_modules/', 'dist/', '**/types/'],
+    include: ['**/*.test.ts'],
+    exclude: ['node_modules/', 'dist/', '**/types/', '**/fixtures/'],
     env: {
       DATABASE_URL:
         process.env.DATABASE_URL ||
