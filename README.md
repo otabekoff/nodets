@@ -13,6 +13,7 @@ A production-ready, scalable REST API built with Node.js, TypeScript, and Clean 
 - 📚 **Documentation** - Swagger UI and ReDoc API documentation
 - 💎 **Modern & Clean** - Zero installation warnings, dependencies up-to-date, and multi-Node compatibility
 - 🎨 **Code Quality** - ESLint, Prettier, and Husky pre-commit hooks
+- 🧩 **Modular** - Feature-slice architecture for scalability
 
 ### Security & Performance
 
@@ -33,59 +34,41 @@ A production-ready, scalable REST API built with Node.js, TypeScript, and Clean 
 
 ## 📁 Project Structure
 
-```
-src/
-├── api/                    # API Routes & Controllers
-│   └── routes/
-│       ├── v1/            # Version 1 routes
-│       └── v2/            # Version 2 routes
-├── core/                   # Core Framework
-│   ├── config/            # Configuration
-│   ├── di/                # Dependency Injection
-│   ├── errors/            # Error classes
-│   ├── events/            # Event system
-│   ├── interfaces/        # Core interfaces
-│   ├── middlewares/       # Express middlewares
-│   └── utils/             # Utility functions
-├── domain/                 # Domain Layer (Optional shared entities)
-├── features/               # Feature Modules
-│   ├── auth/
-│   │   ├── domain/        # Business entities
-│   │   ├── application/   # Use cases & services
-│   │   │   ├── services/
-│   │   │   ├── use-cases/
-│   │   │   └── strategies/  # Version strategies
-│   │   ├── infrastructure/ # Data access & external services
-│   │   │   ├── repositories/
-│   │   │   └── mappers/
-│   │   └── presentation/   # Controllers & DTOs
-│   │       ├── controllers/
-│   │       ├── dtos/
-│   │       └── validators/
-│   └── users/
-│       └── [same structure]
-├── infrastructure/         # Shared Infrastructure
-│   ├── cache/
-│   ├── database/
-│   ├── email/
-│   └── storage/
-├── shared/                 # Shared Utilities
-│   ├── constants/
-│   ├── enums/
-│   └── types/
-├── jobs/                   # Background Jobs
-├── app.ts                  # Express app setup
-├── server.ts               # Server entry point
-└── index.ts                # Main entry
-tests/
-├── e2e/                    # End-to-end tests
-├── integration/            # Integration tests
-└── unit/                   # Unit tests
-scripts/
-├── setup.sh                # Environment setup script
-└── verify.sh               # Project verification script
-.devcontainer/              # VS Code Dev Container config
-```
+- **[src/](src/)**
+  - **[api/](src/api/)** - API Routes & Configuration
+    - **[routes/](src/api/routes/)** - Versioned Resource Routes
+    - **[index.ts](src/api/index.ts)** - Route Aggregator
+  - **[core/](src/core/)** - Core Framework
+    - **[config/](src/core/config/)** - Environment & Validated Config
+    - **[di/](src/core/di/)** - Dependency Injection Container
+    - **[errors/](src/core/errors/)** - Custom Error Hierarchy
+    - **[events/](src/core/events/)** - Typed Event System
+    - **[interfaces/](src/core/interfaces/)** - Core Interfaces (IService, etc.)
+    - **[middlewares/](src/core/middlewares/)** - Express Middlewares (Validation, Error, etc.)
+    - **[utils/](src/core/utils/)** - Core Utilities (Auth, Date, Response)
+  - **[domain/](src/domain/)** - Shared Domain Layer
+    - **[entities/](src/domain/entities/)** - Base Entities
+    - **[events/](src/domain/events/)** - Domain Events
+  - **[features/](src/features/)** - Feature Modules (Vertical Slices)
+    - **[auth/](src/features/auth/)**
+      - **[domain/](src/features/auth/domain/)** - Entities & Repository Interfaces
+      - **[application/](src/features/auth/application/)** - Use Cases & Services
+      - **[infrastructure/](src/features/auth/infrastructure/)** - Repositories & External Services
+      - **[presentation/](src/features/auth/presentation/)** - Controllers, DTOs, & Validators
+    - **[users/](src/features/users/)** - [Standard Feature Structure]
+  - **[infrastructure/](src/infrastructure/)** - Shared Infrastructure Mechanisms
+    - **[cache/](src/infrastructure/cache/)** - Redis & Memory Cache implementations
+    - **[database/](src/infrastructure/database/)** - Prisma Client Singleton
+    - **[email/](src/infrastructure/email/)** - Email Service Providers
+    - **[queue/](src/infrastructure/queue/)** - Bull Job Queues
+    - **[storage/](src/infrastructure/storage/)** - File Storage Strategies
+  - **[jobs/](src/jobs/)** - Background Job Definitions
+    - **[auth/](src/jobs/auth/)** - Auth-related jobs
+    - **[users/](src/jobs/users/)** - User-related jobs
+  - **[shared/](src/shared/)** - Shared Utilities & Constants
+  - **[app.ts](src/app.ts)** - Express App Factory
+  - **[server.ts](src/server.ts)** - Server Entry Point
+  - **[index.ts](src/index.ts)** - Application Bootstrap
 
 ## 🚀 Getting Started
 
@@ -102,8 +85,12 @@ scripts/
 # Clone and setup everything automatically
 git clone https://github.com/otabekoff/nodets.git
 cd nodets
+
+# Run the automated setup script
 ./scripts/setup.sh
 ```
+
+**Note**: The setup script handles dependency installation, database setup, and environment configuration.
 
 ### Manual Installation
 
@@ -290,7 +277,7 @@ Detailed technical documentation can be found in the [docs/](docs/) folder:
 - [🏗️ Architecture & Principles](docs/ARCHITECTURE.md)
 - [🛠️ Development & Setup Guide](docs/DEVELOPMENT.md)
 - [📝 Implementation Guide](docs/IMPLEMENTATION_GUIDE.md)
-- [📊 Performance & Optimization](docs/COMPLETION_SUMMARY.md)
+- [📊 Refactoring Completion Summary](docs/COMPLETION_SUMMARY.md)
 
 ## 🤝 Community & Support
 
@@ -299,7 +286,7 @@ We welcome contributions and value our community:
 - [🤝 Contributing Guide](CONTRIBUTING.md)
 - [📜 Code of Conduct](CODE_OF_CONDUCT.md)
 - [🔒 Security Policy](SECURITY.md)
-- [📝 License](LICENSE)
+- [📝 License](LICENSE.md)
 
 ## 👤 Author
 
