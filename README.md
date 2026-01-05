@@ -76,6 +76,14 @@ src/
 ├── app.ts                  # Express app setup
 ├── server.ts               # Server entry point
 └── index.ts                # Main entry
+tests/
+├── e2e/                    # End-to-end tests
+├── integration/            # Integration tests
+└── unit/                   # Unit tests
+scripts/
+├── setup.sh                # Environment setup script
+└── verify.sh               # Project verification script
+.devcontainer/              # VS Code Dev Container config
 ```
 
 ## 🚀 Getting Started
@@ -84,67 +92,55 @@ src/
 
 - Node.js >= 20.0.0
 - npm >= 10.0.0
-- PostgreSQL >= 14
-- Redis >= 7 (optional, for caching)
+- Docker Desktop with Compose V2
+- PostgreSQL & Redis (or use Docker)
 
-### Installation
+### Quick Setup
 
-1. **Clone the repository**
+```bash
+# Clone and setup everything automatically
+git clone https://github.com/otabekoff/nodets.git
+cd nodets
+./scripts/setup.sh
+```
 
-   ```bash
-   git clone https://github.com/otabekoff/nodets.git
-   cd nodets
-   ```
+### Manual Installation
 
-2. **Install dependencies**
-
+1. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. **Setup environment variables**
-
+2. **Start Infrastructure**
    ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
+   npm run db:infra
    ```
 
-4. **Generate Prisma client**
-
+3. **Database Setup**
    ```bash
    npm run db:generate
-   ```
-
-5. **Run database migrations**
-
-   ```bash
    npm run db:migrate
    ```
 
-6. **Start development server**
+4. **Start Development**
    ```bash
    npm run dev
    ```
 
-The API will be available at:
-
-- 🌐 API: `http://localhost:3000/api`
-- 📚 Swagger: `http://localhost:3000/api-docs`
-- 📖 ReDoc: `http://localhost:3000/redoc`
-
 ## 🐳 Docker
 
-### Development with Docker Compose
+### Modern Docker Compose
+This project uses Docker Compose V2. Use `docker compose` instead of `docker-compose`.
 
 ```bash
 # Start all services
-docker compose up -d
+npm run docker:up
 
 # View logs
-docker compose logs -f
+npm run docker:logs
 
 # Stop services
-docker compose down
+npm run docker:down
 ```
 
 ### Production Build

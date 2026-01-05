@@ -7,8 +7,5 @@
 
 ## Steps
 1. Clone the repository.
-2. Install dependencies: `npm install`.
-3. Set up environment: `cp .env.example .env`.
-4. Start infrastructure: `npm run db:infra`.
-5. Run migrations: `npm run db:migrate`.
-6. Start development server: `npm run dev`.
+2. Run the automated setup: `./scripts/setup.sh`.
+3. Start development server: `npm run dev`.

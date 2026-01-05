@@ -4,7 +4,7 @@
 import { injectable } from 'inversify';
 import { prisma } from '@infrastructure/database/index.js';
 import { User } from '../../domain/User.entity.js';
-import { UserMapper } from '../mappers/user.mapper.js';
+import { UserMapper, type PrismaUser } from '../mappers/user.mapper.js';
 
 @injectable()
 export class UserRepository {
@@ -16,32 +16,32 @@ export class UserRepository {
 
   async findById(id: string): Promise<User | null> {
     const user = await prisma.user.findUnique({ where: { id } });
-    return user ? this.mapper.toDomain(user) : null;
+    return user ? this.mapper.toDomain(user as PrismaUser) : null;
   }
 
   async findByEmail(email: string): Promise<User | null> {
     const user = await prisma.user.findUnique({ where: { email } });
-    return user ? this.mapper.toDomain(user) : null;
+    return user ? this.mapper.toDomain(user as PrismaUser) : null;
   }
 
   async findAll(filters?: Record<string, unknown>): Promise<User[]> {
     const users = filters
       ? await prisma.user.findMany({ where: filters as never })
       : await prisma.user.findMany();
-    return users.map((user) => this.mapper.toDomain(user));
+    return users.map((user: PrismaUser) => this.mapper.toDomain(user));
   }
 
   async findActive(): Promise<User[]> {
     const users = await prisma.user.findMany({
       where: { isActive: true },
     });
-    return users.map((user) => this.mapper.toDomain(user));
+    return users.map((user: PrismaUser) => this.mapper.toDomain(user));
   }
 
   async create(data: Partial<User>): Promise<User> {
     const persistence = this.mapper.toPersistence(data as User);
     const created = await prisma.user.create({ data: persistence });
-    return this.mapper.toDomain(created);
+    return this.mapper.toDomain(created as PrismaUser);
   }
 
   async update(id: string, data: Partial<User>): Promise<User | null> {
@@ -49,7 +49,7 @@ export class UserRepository {
       where: { id },
       data: this.mapper.toPersistence(data as User),
     });
-    return this.mapper.toDomain(updated);
+    return this.mapper.toDomain(updated as PrismaUser);
   }
 
   async delete(id: string): Promise<boolean> {

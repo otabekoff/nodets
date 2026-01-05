@@ -3,7 +3,7 @@
 // ============================================================================
 import { User } from '../../domain/User.entity.js';
 
-type PrismaUser = {
+export type PrismaUser = {
   id: string;
   email: string;
   name: string;

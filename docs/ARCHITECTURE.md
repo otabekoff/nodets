@@ -33,6 +33,14 @@ This project follows **Clean Architecture** and **Domain-Driven Design (DDD)** p
 
 We use **InversifyJS** for loose coupling and easy testing. All dependencies are bound in `src/core/di/container.ts`.
 
+## 🧪 Testing Strategy
+
+All tests are centralized in the root [tests/](file:///home/otabek/Projects/learn/node/nodets/tests/) directory, separated by category:
+
+- **Unit Tests** (`tests/unit`): Testing business logic in isolation.
+- **Integration Tests** (`tests/integration`): Testing the interaction between layers and external components.
+- **E2E Tests** (`tests/e2e/`): Testing the full API flow from entry to exit.
+
 ## 🛣️ API Versioning
 
 Support for multiple versions (v1, v2) is implemented using the **Strategy Pattern**, allowing different behaviors for the same endpoint based on the version.

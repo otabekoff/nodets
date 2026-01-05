@@ -4,41 +4,29 @@ Guidelines for setting up and working on the project locally.
 
 ## 📦 Environment Setup
 
-### 1. Install Dependencies
+### 1. Automatic Setup (Recommended)
+
+Run the included setup script to install dependencies, configure environment variables, and start infrastructure:
 
 ```bash
+./scripts/setup.sh
+```
+
+### 2. Manual Setup
+
+If you prefer manual control:
+
+```bash
+# Install dependencies
 npm install
-```
 
-### 2. Configure Environment
-
-The `.env` file needs JWT secrets configured. Generate secure secrets and copy the example:
-
-```bash
-# Generate secure JWT secrets
-openssl rand -base64 48
-
-# Copy example and edit
+# Setup environment
 cp .env.example .env
-```
 
-**Required `.env` values:**
-
-- `JWT_SECRET`: Minimum 32 characters.
-- `JWT_REFRESH_SECRET`: Minimum 32 characters.
-- `DATABASE_URL`: PostgreSQL connection string.
-
-### 3. Infrastructure & Database
-
-Start the external infrastructure (Postgres, Redis):
-
-```bash
+# Start infrastructure
 npm run db:infra
-```
 
-Generate Prisma client and run migrations:
-
-```bash
+# Database initialization
 npm run db:generate
 npm run db:migrate
 ```

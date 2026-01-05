@@ -125,19 +125,8 @@ If you're starting from scratch:
 git clone https://github.com/otabekoff/nodets.git my-project
 cd my-project
 
-# 2. Install dependencies
-npm install
-
-# 3. Setup environment
-cp .env.example .env
-# Edit .env with your values
-
-# 4. Setup database
-npm run db:generate
-npm run db:migrate
-
-# 5. Start development
-npm run dev
+# 2. Automated Setup
+./scripts/setup.sh
 ```
 
 ## 📚 Additional Resources
