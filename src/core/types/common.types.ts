@@ -12,9 +12,9 @@ export type Nullable<T> = T | null;
 
 export type Optional<T> = T | undefined;
 
-export type AsyncFunction<T = any> = (...args: any[]) => Promise<T>;
+export type AsyncFunction<T = unknown> = (...args: unknown[]) => Promise<T>;
 
-export type Constructor<T = any> = new (...args: any[]) => T;
+export type Constructor<T = unknown> = new (...args: unknown[]) => T;
 
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
@@ -24,7 +24,7 @@ export type Prettify<T> = {
   [K in keyof T]: T[K];
 } & {};
 
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (
   k: infer I,
 ) => void
   ? I

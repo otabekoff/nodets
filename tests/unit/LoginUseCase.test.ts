@@ -2,21 +2,27 @@
 // features/auth/__tests__/unit/LoginUseCase.test.ts
 // ============================================================================
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { LoginUseCase } from '../../application/use-cases/LoginUseCase';
-import { AuthenticationError } from '@core/errors';
+import { LoginUseCase } from '@features/auth/application/use-cases/LoginUseCase.js';
+import type { IAuthRepository } from '@features/auth/infrastructure/repositories/auth.repository.interface.js';
+import { AuthenticationError } from '@core/errors/index.js';
 import bcrypt from 'bcrypt';
+import { User } from '@features/users/domain/User.entity.js';
+import { RefreshToken } from '@features/auth/domain/Auth.entity.js';
+
+import type { Mocked } from 'vitest';
 
 vi.mock('bcrypt');
 
 describe('LoginUseCase', () => {
   let useCase: LoginUseCase;
-  let mockAuthRepository: any;
+  let mockAuthRepository: Mocked<IAuthRepository>;
 
   beforeEach(() => {
     mockAuthRepository = {
       findUserByEmail: vi.fn(),
       saveRefreshToken: vi.fn(),
-    };
+      findUserById: vi.fn(), // Added missing methods to satisfy interface if needed
+    } as unknown as Mocked<IAuthRepository>;
     useCase = new LoginUseCase(mockAuthRepository);
   });
 
@@ -29,9 +35,9 @@ describe('LoginUseCase', () => {
       role: 'user',
     };
 
-    mockAuthRepository.findUserByEmail.mockResolvedValue(mockUser);
-    mockAuthRepository.saveRefreshToken.mockResolvedValue({});
-    (bcrypt.compare as any).mockResolvedValue(true);
+    mockAuthRepository.findUserByEmail.mockResolvedValue(mockUser as unknown as User);
+    mockAuthRepository.saveRefreshToken.mockResolvedValue({} as unknown as RefreshToken);
+    vi.mocked(bcrypt.compare).mockResolvedValue(true as never);
 
     // Note: You'd need to mock bcrypt.compare here
     const result = await useCase.execute({

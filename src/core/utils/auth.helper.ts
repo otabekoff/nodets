@@ -92,7 +92,7 @@ export function generatePasswordResetToken(userId: string): string {
  */
 export function verifyPasswordResetToken(token: string): { userId: string } {
   try {
-    const payload = jwt.verify(token, config.JWT_SECRET) as any;
+    const payload = jwt.verify(token, config.JWT_SECRET) as { userId: string; type: string };
 
     if (payload.type !== 'password-reset') {
       throw new Error('Invalid token type');

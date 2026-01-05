@@ -3,11 +3,12 @@
 // ============================================================================
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import request from 'supertest';
-import { createApp } from '@/app';
-import { prisma } from '@/infrastructure/database';
+import { createApp } from '@/app.js';
+import { prisma } from '@/infrastructure/database/index.js';
+import type { Application } from 'express';
 
 describe('Auth API E2E Tests', () => {
-  let app: any;
+  let app: Application;
 
   beforeAll(async () => {
     app = createApp();

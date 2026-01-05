@@ -32,7 +32,11 @@ export const authenticate = async (
       throw new AuthenticationError('No authentication token provided');
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: string;
+      email: string;
+      role: string;
+    };
     req.user = decoded;
 
     next();

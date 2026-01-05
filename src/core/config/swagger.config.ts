@@ -356,7 +356,7 @@ export function setupSwagger(app: Application): void {
   );
 
   // ReDoc - using default export
-  const redocHandler = (redoc as any).default || redoc;
+  const redocHandler = (redoc as unknown as { default: unknown }).default || redoc;
   if (typeof redocHandler === 'function') {
     app.get(
       '/redoc',

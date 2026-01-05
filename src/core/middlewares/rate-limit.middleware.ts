@@ -12,6 +12,10 @@ export const createRateLimiter = (options?: {
   max?: number;
   message?: string;
 }) => {
+  if (process.env.NODE_ENV === 'test') {
+    return (_req: unknown, _res: unknown, next: () => void) => next();
+  }
+
   return rateLimit({
     windowMs: options?.windowMs || 15 * 60 * 1000, // 15 minutes
     max: options?.max || 100, // limit each IP to 100 requests per windowMs

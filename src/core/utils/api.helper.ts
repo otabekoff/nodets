@@ -27,8 +27,8 @@ export function extractSortParams(req: Request) {
 /**
  * Build filter object from query parameters
  */
-export function buildFilters(req: Request, allowedFields: string[]): Record<string, any> {
-  const filters: Record<string, any> = {};
+export function buildFilters(req: Request, allowedFields: string[]): Record<string, unknown> {
+  const filters: Record<string, unknown> = {};
 
   allowedFields.forEach((field) => {
     if (req.query[field]) {

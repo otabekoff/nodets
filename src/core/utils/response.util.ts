@@ -22,7 +22,7 @@ export function successResponse<T>(data: T, message?: string): IApiResponse<T> {
 /**
  * Error response helper
  */
-export function errorResponse(code: string, message: string, details?: any): IApiResponse {
+export function errorResponse(code: string, message: string, details?: unknown): IApiResponse {
   return {
     success: false,
     error: {

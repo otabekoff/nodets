@@ -1,0 +1,12 @@
+# This file defines the owners of code in the repository.
+# For more information, see: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owners by default
+* @otabekoff
+
+# Core architecture and config
+/docs/ @otabekoff
+/src/core/ @otabekoff
+
+# Feature specific owners (Example)
+# /src/features/auth/ @otabekoff

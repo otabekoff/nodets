@@ -1,0 +1,20 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "Prettier.prettier-vscode",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-azuretools.vscode-docker",
+    "mikestead.dotenv",
+    "streetsidesoftware.code-spell-checker",
+    "stylelint.vscode-stylelint",
+    "eamodio.gitlens",
+    "vitest.explorer",
+    "antfu.vite",
+    "ms-azuretools.vscode-containers",
+    "PKief.material-icon-theme",
+    "Prisma.prisma",
+    "rangav.vscode-thunder-client"
+  ]
+}

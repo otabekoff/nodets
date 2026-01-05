@@ -49,7 +49,7 @@
     "db:reset": "prisma migrate reset",
     "test": "vitest",
     "test:echo": "echo \"Salom, dunyo!\"",
-    "test:unit": "vitest run --dir src --coverage",
+    "test:unit": "vitest run --dir tests/unit --coverage",
     "test:integration": "vitest run --dir tests/integration",
     "test:e2e": "vitest run --dir tests/e2e",
     "test:e2e:config": "vitest run --config vitest.e2e.config.ts",

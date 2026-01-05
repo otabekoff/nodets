@@ -100,7 +100,7 @@ export class RedisCacheService implements ICacheService {
   /**
    * Set multiple keys at once
    */
-  async mset(items: Record<string, any>, ttl?: number): Promise<void> {
+  async mset(items: Record<string, unknown>, ttl?: number): Promise<void> {
     if (!redisClient) return;
 
     try {
@@ -135,7 +135,7 @@ export class RedisCacheService implements ICacheService {
   /**
    * Set with expiration at specific time
    */
-  async setWithExpire(key: string, value: any, expiresAt: Date): Promise<void> {
+  async setWithExpire(key: string, value: unknown, expiresAt: Date): Promise<void> {
     if (!redisClient) return;
 
     try {

@@ -4,6 +4,8 @@
 import { PrismaClient } from '../../../generated/prisma/index.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pkg from 'pg';
+import { config } from '../../../core/config/index.js';
+
 const { Pool } = pkg;
 
 /**
@@ -15,7 +17,7 @@ class PrismaClientSingleton {
   static getInstance(): PrismaClient {
     if (!PrismaClientSingleton.instance) {
       // Create PostgreSQL connection pool
-      const connectionString = process.env.DATABASE_URL;
+      const connectionString = config.DATABASE_URL;
       const pool = new Pool({ connectionString });
       const adapter = new PrismaPg(pool);
 

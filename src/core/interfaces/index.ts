@@ -8,7 +8,7 @@ import type { NextFunction, Request, Response } from 'express';
  */
 export interface IRepository<T, ID = string> {
   findById(id: ID): Promise<T | null>;
-  findAll(filters?: Record<string, any>): Promise<T[]>;
+  findAll(filters?: Record<string, unknown>): Promise<T[]>;
   create(data: Partial<T>): Promise<T>;
   update(id: ID, data: Partial<T>): Promise<T | null>;
   delete(id: ID): Promise<boolean>;
@@ -20,7 +20,7 @@ export interface IRepository<T, ID = string> {
  */
 export interface IService<T, CreateDTO, UpdateDTO, ID = string> {
   getById(id: ID): Promise<T | null>;
-  getAll(filters?: Record<string, any>): Promise<T[]>;
+  getAll(filters?: Record<string, unknown>): Promise<T[]>;
   create(data: CreateDTO): Promise<T>;
   update(id: ID, data: UpdateDTO): Promise<T | null>;
   delete(id: ID): Promise<boolean>;
@@ -39,11 +39,11 @@ export interface IController {
  * Used for implementing version-specific behavior without duplicating code.
  * Each version implements this interface with its own logic.
  */
-export interface IVersionStrategy<T = any> {
+export interface IVersionStrategy<T = unknown> {
   readonly version: string;
-  execute(context: T): Promise<any>;
-  transform?(data: any): any;
-  validate?(data: any): boolean;
+  execute(context: T): Promise<unknown>;
+  transform?(data: unknown): unknown;
+  validate?(data: unknown): boolean;
 }
 
 /**
@@ -59,7 +59,7 @@ export interface IUseCase<TRequest, TResponse> {
 /**
  * Event Handler Interface
  */
-export interface IEventHandler<T = any> {
+export interface IEventHandler<T = unknown> {
   handle(event: T): Promise<void>;
 }
 
@@ -93,14 +93,14 @@ export interface IPaginatedResponse<T> {
 /**
  * API Response Interface
  */
-export interface IApiResponse<T = any> {
+export interface IApiResponse<T = unknown> {
   success: boolean;
   message?: string;
   data?: T;
   error?: {
     code: string;
     message: string;
-    details?: any;
+    details?: unknown;
   };
   meta?: {
     timestamp: string;
@@ -124,10 +124,10 @@ export interface ICacheService {
  * Logger Interface
  */
 export interface ILogger {
-  info(message: string, meta?: any): void;
-  error(message: string, meta?: any): void;
-  warn(message: string, meta?: any): void;
-  debug(message: string, meta?: any): void;
+  info(message: string, meta?: unknown): void;
+  error(message: string, meta?: unknown): void;
+  warn(message: string, meta?: unknown): void;
+  debug(message: string, meta?: unknown): void;
 }
 
 /**

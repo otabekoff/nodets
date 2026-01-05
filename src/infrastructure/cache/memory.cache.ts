@@ -5,7 +5,7 @@ import { injectable } from 'inversify';
 import type { ICacheService } from './cache.interface.js';
 
 interface CacheItem {
-  value: any;
+  value: unknown;
   expiresAt: number;
 }
 

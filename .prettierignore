@@ -1,0 +1,8 @@
+# .prettierignore
+node_modules/
+dist/
+coverage/
+src/generated/
+prisma/generated/
+package-lock.json
+*.md

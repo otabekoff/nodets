@@ -24,18 +24,18 @@ export class UserRepository {
     return user ? this.mapper.toDomain(user) : null;
   }
 
-  async findAll(filters?: Record<string, any>): Promise<User[]> {
+  async findAll(filters?: Record<string, unknown>): Promise<User[]> {
     const users = filters
-      ? await prisma.user.findMany({ where: filters })
+      ? await prisma.user.findMany({ where: filters as never })
       : await prisma.user.findMany();
-    return users.map((user: any) => this.mapper.toDomain(user));
+    return users.map((user) => this.mapper.toDomain(user));
   }
 
   async findActive(): Promise<User[]> {
     const users = await prisma.user.findMany({
       where: { isActive: true },
     });
-    return users.map((user: any) => this.mapper.toDomain(user));
+    return users.map((user) => this.mapper.toDomain(user));
   }
 
   async create(data: Partial<User>): Promise<User> {

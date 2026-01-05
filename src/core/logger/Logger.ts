@@ -30,19 +30,19 @@ export class Logger implements ILogger {
     this.logger = pino(loggerOptions);
   }
 
-  info(message: string, meta?: any): void {
+  info(message: string, meta?: unknown): void {
     this.logger.info(meta, message);
   }
 
-  error(message: string, meta?: any): void {
+  error(message: string, meta?: unknown): void {
     this.logger.error(meta, message);
   }
 
-  warn(message: string, meta?: any): void {
+  warn(message: string, meta?: unknown): void {
     this.logger.warn(meta, message);
   }
 
-  debug(message: string, meta?: any): void {
+  debug(message: string, meta?: unknown): void {
     this.logger.debug(meta, message);
   }
 }

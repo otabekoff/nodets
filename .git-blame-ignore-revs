@@ -1,0 +1,3 @@
+# .git-blame-ignore-revs
+# List of commits to be ignored by git blame (e.g., large formatting changes)
+# Format: <full-commit-hash>

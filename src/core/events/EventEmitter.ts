@@ -1,4 +1,4 @@
-type Handler = (...args: any[]) => void;
+type Handler = (...args: unknown[]) => void;
 
 export class EventEmitter {
   private handlers: Record<string, Handler[]> = {};
@@ -8,7 +8,7 @@ export class EventEmitter {
     this.handlers[event].push(handler);
   }
 
-  emit(event: string, ...args: any[]) {
+  emit(event: string, ...args: unknown[]) {
     (this.handlers[event] || []).forEach((h) => h(...args));
   }
 
