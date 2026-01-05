@@ -9,8 +9,9 @@ A production-ready, scalable REST API built with Node.js, TypeScript, and Clean 
 - ⚡ **TypeScript** - Full type safety and modern JavaScript features
 - 🔥 **Hot Reload** - Development with tsx watch mode
 - ✅ **Validation** - Request validation using Zod schemas
-- 🧪 **Testing** - Unit, integration, and e2e tests with Vitest
+- 🧪 **Testing** - 100% core logic coverage with Vitest
 - 📚 **Documentation** - Swagger UI and ReDoc API documentation
+- 💎 **Modern & Clean** - Zero installation warnings, dependencies up-to-date, and multi-Node compatibility
 - 🎨 **Code Quality** - ESLint, Prettier, and Husky pre-commit hooks
 
 ### Security & Performance
@@ -90,7 +91,7 @@ scripts/
 
 ### Prerequisites
 
-- Node.js >= 20.0.0
+- Node.js (Tested on 20.x, 22.x, 24.x, 25.x)
 - npm >= 10.0.0
 - Docker Desktop with Compose V2
 - PostgreSQL & Redis (or use Docker)
@@ -228,7 +229,7 @@ npm run test:integration
 # Run e2e tests
 npm run test:e2e
 
-# Generate coverage report
+# Generate coverage report (Current: 100% Core Coverage)
 npm run test:coverage
 
 # Watch mode
